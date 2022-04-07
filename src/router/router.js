@@ -10,11 +10,17 @@ Vue.use(VueRouter)
 const routes = [
     {
         path: '/',
-        redirect: '/home'
+        component: () => import('@/views/Home'),
+        children: [
+            {
+                path: 'ask',
+                component: () => import('@/views/Template'),
+            }
+        ]
     },
     {
-        path: '/home',
-        component: () => import('@/views/Home')
+        path: '/postNew',
+        component: () => import('@/views/postNew'),
     },
     ...loginRoutes
 ]
