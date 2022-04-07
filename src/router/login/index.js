@@ -1,9 +1,6 @@
 
 const loginRoutes = [
-    {
-        path: '/',
-        redirect: '/login'
-    },
+
     {
         path: '/login',
         name: 'Login',
