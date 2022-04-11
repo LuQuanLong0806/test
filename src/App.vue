@@ -11,23 +11,23 @@
 // import LoginVeeValidate from '@/components/LoginVeeValidate'
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     // LoginVuelidate,
     // LoginVeeValidate,
   },
   data() {
-    return {}
+    return {};
   },
   validations: {},
   created() {},
   methods: {},
-}
+};
 </script>
 
 <style scoped>
 #app {
-  background-color: grey;
+  background-color: rgb(240, 240, 240);
   min-height: 100vh;
 }
 </style>>

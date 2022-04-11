@@ -2,9 +2,8 @@
   <div>
     <Head></Head>
     <Panel></Panel>
-    <div class="p-50">
-      <router-view></router-view>
-    </div>
+    <router-view></router-view>
+
   </div>
 </template>
 
@@ -12,11 +11,13 @@
 import Head from "@/components/Head.vue";
 import Panel from "@/components/home/Panel";
 
+
 export default {
   name: "home",
   components: {
     Head,
     Panel,
+
   },
   data() {
     return {};
@@ -25,7 +26,5 @@ export default {
 </script>
 
 <style  scoped>
-.p-50 {
-  padding: 0 50px;
-}
+
 </style>

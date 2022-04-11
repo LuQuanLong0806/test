@@ -3,16 +3,23 @@
     <div class="panel">
       <div class="layui-container">
         <ul>
-          <li><a href="">首页</a></li>
-          <li><a href="">提问</a></li>
-          <li><a href="">分享</a></li>
-          <li><a href="">讨论</a></li>
-          <li><a href="">建议</a></li>
-          <li><a href="">公告</a></li>
-          <li><a href="">动态</a></li>
+          <router-link tag="li" to="/"><a href="">首页</a></router-link>
+          <router-link
+            tag="li"
+            v-for="(item, index) in lists"
+            :to="item.path"
+            :key="index + 'pannel'"
+            class="layui-this"
+            ><a>{{ item.name }}</a></router-link
+          >
+
           <li class="layui-col-xs"><span class="line"></span></li>
-          <li class="layui-col-xs"><a href="">我发表的贴</a></li>
-          <li class="layui-col-xs"><a href="">我收藏的贴</a></li>
+          <li class="layui-col-xs">
+            <router-link to="">我发表的贴</router-link>
+          </li>
+          <li class="layui-col-xs">
+            <router-link to="">我收藏的贴</router-link>
+          </li>
         </ul>
 
         <div class="right layui-col-xs">
@@ -26,11 +33,26 @@
 
 <script>
 export default {
-  name: 'panel',
-}
+  name: "panel",
+  data() {
+    return {
+      lists: [
+        { path: "/ask", name: "提问" },
+        { path: "/", name: "分享" },
+        { path: "/", name: "讨论" },
+        { path: "/", name: "建议" },
+        { path: "/", name: "公告" },
+        { path: "/", name: "动态" },
+      ],
+    };
+  },
+};
 </script>
 
 <style  scoped>
+.layui-container {
+  width: 1780px;
+}
 .panel {
   height: auto;
   line-height: 50px;
