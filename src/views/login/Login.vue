@@ -186,11 +186,13 @@ export default {
 
             if (res.code == 200) {
               console.log("res", res.data);
+              let data = res.data;
               //   this.$alert(res.message);
               // Object.keys(this.formData).forEach((d) => {
               //   this.formData[d] = ''
               // })
-              this.$store.commit("login/SET_IS_LOGIN", true);
+            //   this.$store.commit("login/SET_IS_LOGIN", true);
+              this.$store.commit("login/SET_TOKEN", data.token);
               this.$router.push({ path: "/index" });
             } else {
               this.$alert(res.message);
