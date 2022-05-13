@@ -10,6 +10,7 @@ Alert.install = (Vue) => {
   document.body.appendChild(instance.$el)
 
   Vue.prototype.$alert = (msg) => {
+    instance.type = 'alert';
     instance.msg = msg;
     instance.isShow = true
   }

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import loginRoutes from './login'
+import userRoutes from './user'
 
 Vue.use(VueRouter)
 
@@ -25,7 +26,12 @@ const routes = [
         path: '/postNew',
         component: () => import('@/views/postNew'),
     },
-    ...loginRoutes
+    {
+        path: '/test',
+        component: () => import('@/views/Test'),
+    },
+    ...loginRoutes,
+    ...userRoutes
 ]
 
 let router = new VueRouter({

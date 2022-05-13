@@ -1,19 +1,163 @@
 <template>
-  <div class="head"></div>
+  <div class="head d-flex">
+    <div class="">
+      <img src="" alt="" />
+    </div>
+
+    <div class="d-flex">
+      <!-- 未登录 -->
+      <ul class="d-flex" v-if="!$store.state.login.isLogin">
+        <li>
+          <router-link :to="{ path: '/User' }">
+            <img class="user-pic" src="" alt="" />
+          </router-link>
+        </li>
+        <li>
+          <router-link class="user-font" :to="{ path: '/login' }"
+            >登录</router-link
+          >
+        </li>
+        <li>
+          <router-link class="user-font" :to="{ path: '/register' }"
+            >注册</router-link
+          >
+        </li>
+        <li>
+          <router-link class="user-font" :to="{ path: '/User' }"
+            >QQ</router-link
+          >
+        </li>
+        <li>
+          <router-link class="user-font" :to="{ path: '/login' }"
+            >微博</router-link
+          >
+        </li>
+      </ul>
+
+      <!-- 登录 -->
+      <div class="d-flex user" v-else>
+        <span class="user-font">
+          <router-link class="user-font" :to="{ path: '/User' }"
+            >用户名</router-link
+          >
+        </span>
+        <span class="p-relative user-hover" style="width: 30px; height: 30px">
+          <router-link :to="{ path: '/User' }">
+            <img class="user-pic" src="" alt="" />
+          </router-link>
+          <ul class="i-menu">
+            <li
+              class="i-menu-item"
+              v-for="(item, index) in userMenu"
+              :key="index"
+            >
+              <router-link :to="{ path: item.link }">
+                <i class="iconfont" :class="item.icon"></i>
+                {{ item.name }}
+              </router-link>
+            </li>
+
+            <li class="i-menu-item" @click="logOut">退出</li>
+          </ul>
+        </span>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
   data() {
-    return {};
+    return {
+      userMenu: [
+        {
+          link: "/index",
+          icon: "icon-home",
+          name: "我的主页",
+        },
+        {
+          link: "/User/BaseSetting",
+          icon: "icon-setting",
+          name: "基本设置",
+        },
+
+        {
+          link: "/User/MyMessage",
+          icon: "icon-message-fill",
+          name: "我的消息",
+        },
+      ],
+    };
+  },
+  mounted() {},
+  methods: {
+    logOut() {
+      this.$confirm("确定要退出吗?", () => {
+        this.$store.commit("login/SET_IS_LOGIN", false);
+        this.$router.push({ path: "/index" });
+      });
+    },
   },
 };
 </script>
 
-<style scoped>
+<style lang='scss' scoped>
+@import "./../assets/custom/iconfont.css";
+
 .head {
   width: 100%;
   height: 80px;
   background-color: #222;
+  justify-content: space-between;
+  padding: 0 50px;
+  box-sizing: border-box;
+}
+.d-flex {
+  display: flex;
+  align-items: center;
+}
+.user img {
+}
+
+$c: #fff;
+.user-font {
+  color: $c;
+  font-size: 14px;
+  margin: 0 10px;
+}
+.user-pic {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid $c;
+  cursor: pointer;
+}
+.p-relative {
+  position: relative;
+}
+.user-hover:hover .i-menu {
+  display: block;
+}
+.i-menu {
+  display: none;
+  position: absolute;
+  top: 32px;
+  width: 120px;
+  background-color: #fff;
+  border-radius: 10px;
+  padding-top: 10px;
+  right: -30px;
+  z-index: 100;
+  box-shadow: 0 0 6px 2px rgba(204, 204, 204, 0.3);
+  &-item {
+    height: 38px;
+    line-height: 38px;
+    text-align: center;
+    cursor: pointer;
+  }
+  li:last-child() {
+    border-top: 1px solid red;
+  }
 }
 </style>
