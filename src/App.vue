@@ -11,23 +11,56 @@
 // import LoginVeeValidate from '@/components/LoginVeeValidate'
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
     // LoginVuelidate,
     // LoginVeeValidate,
   },
   data() {
-    return {};
+    return {}
   },
   validations: {},
   created() {},
   methods: {},
-};
+}
 </script>
 
-<style scoped>
+<style  lang="scss">
+.d-flex {
+  display: flex;
+  align-items: center;
+  &-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  &-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.font-orange {
+  color: orangered;
+}
+
+.font-gray {
+  color: #c2c2c2;
+}
+.font-hide {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 #app {
   background-color: rgb(240, 240, 240);
   min-height: 100vh;
+}
+
+::-webkit-scrollbars {
+  width: 0;
+  display: none;
 }
 </style>>

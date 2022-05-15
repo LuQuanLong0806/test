@@ -6,7 +6,7 @@
 
     <div class="d-flex">
       <!-- 未登录 -->
-      <ul class="d-flex" v-if="!$store.state.login.isLogin">
+      <ul class="d-flex" v-if="!$store.state.login.token">
         <li>
           <router-link :to="{ path: '/User' }">
             <img class="user-pic" src="" alt="" />
@@ -37,28 +37,34 @@
       <!-- 登录 -->
       <div class="d-flex user" v-else>
         <span class="user-font">
-          <router-link class="user-font" :to="{ path: '/User' }"
-            >用户名</router-link
-          >
+          <router-link class="user-font" :to="{ path: '/User' }">{{
+            $store.state.login.userInfo.nickname
+          }}</router-link>
         </span>
         <span class="p-relative user-hover" style="width: 30px; height: 30px">
           <router-link :to="{ path: '/User' }">
-            <img class="user-pic" src="" alt="" />
+            <img
+              class="user-pic"
+              :src="$store.state.login.userInfo.pic || defaultImg"
+              alt=""
+            />
           </router-link>
-          <ul class="i-menu">
-            <li
-              class="i-menu-item"
-              v-for="(item, index) in userMenu"
-              :key="index"
-            >
-              <router-link :to="{ path: item.link }">
-                <i class="iconfont" :class="item.icon"></i>
-                {{ item.name }}
-              </router-link>
-            </li>
+          <div class="i-menu" style="">
+            <ul class="i-menu-container">
+              <li
+                class="i-menu-item"
+                v-for="(item, index) in userMenu"
+                :key="index"
+              >
+                <router-link :to="{ path: item.link }">
+                  <i class="iconfont" :class="item.icon"></i>
+                  {{ item.name }}
+                </router-link>
+              </li>
 
-            <li class="i-menu-item" @click="logOut">退出</li>
-          </ul>
+              <li class="i-menu-item" @click="logOut">退出</li>
+            </ul>
+          </div>
         </span>
       </div>
     </div>
@@ -71,38 +77,40 @@ export default {
     return {
       userMenu: [
         {
-          link: "/index",
-          icon: "icon-home",
-          name: "我的主页",
+          link: '/index',
+          icon: 'icon-home',
+          name: '我的主页',
         },
         {
-          link: "/User/BaseSetting",
-          icon: "icon-setting",
-          name: "基本设置",
+          link: '/User/BaseSetting',
+          icon: 'icon-setting',
+          name: '基本设置',
         },
 
         {
-          link: "/User/MyMessage",
-          icon: "icon-message-fill",
-          name: "我的消息",
+          link: '/User/MyMessage',
+          icon: 'icon-message-fill',
+          name: '我的消息',
         },
       ],
-    };
+      defaultImg: require('@/assets/user/avatar.jpg'),
+    }
   },
   mounted() {},
   methods: {
     logOut() {
-      this.$confirm("确定要退出吗?", () => {
-        this.$store.commit("login/SET_IS_LOGIN", false);
-        this.$router.push({ path: "/index" });
-      });
+      this.$confirm('确定要退出吗?', () => {
+        this.$store.commit('login/SET_TOKEN', '')
+        localStorage.clear()
+        this.$router.push({ path: '/' })
+      })
     },
   },
-};
+}
 </script>
 
 <style lang='scss' scoped>
-@import "./../assets/custom/iconfont.css";
+@import './../assets/custom/iconfont.css';
 
 .head {
   width: 100%;
@@ -139,17 +147,22 @@ $c: #fff;
 .user-hover:hover .i-menu {
   display: block;
 }
+
 .i-menu {
   display: none;
   position: absolute;
-  top: 32px;
+  top: 30px;
   width: 120px;
-  background-color: #fff;
-  border-radius: 10px;
-  padding-top: 10px;
-  right: -30px;
+  right: -35px;
   z-index: 100;
-  box-shadow: 0 0 6px 2px rgba(204, 204, 204, 0.3);
+  padding-top: 10px;
+  &-container {
+    background-color: #fff;
+    border-radius: 10px;
+    padding-top: 10px;
+    box-shadow: 0 0 6px 2px rgba(204, 204, 204, 0.3);
+  }
+
   &-item {
     height: 38px;
     line-height: 38px;
@@ -157,7 +170,6 @@ $c: #fff;
     cursor: pointer;
   }
   li:last-child() {
-    border-top: 1px solid red;
   }
 }
 </style>

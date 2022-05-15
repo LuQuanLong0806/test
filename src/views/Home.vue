@@ -9,19 +9,19 @@
 </template>
 
 <script>
-import Head from "@/components/Head.vue";
-import Panel from "@/components/home/Panel";
+import Head from '@/components/Head.vue'
+import Panel from '@/components/home/Panel'
 
 export default {
-  name: "home",
+  name: 'home',
   components: {
     Head,
     Panel,
   },
   data() {
-    return {};
+    return {}
   },
-};
+}
 </script>
 
 <style  scoped>

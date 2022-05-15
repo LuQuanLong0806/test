@@ -3,8 +3,8 @@ import db from '@/util/db'
 const login = {
     namespaced: true,
     state: {
-        // isLogin: false
-
+        token: db.get('token'),
+        userInfo: db.get('userInfo') ? JSON.parse(db.get('userInfo')) : {}
     },
     mutations: {
         SET_IS_LOGIN(state, payload) {
@@ -12,14 +12,21 @@ const login = {
         },
         SET_TOKEN(state, payload) {
             state.token = payload;
+            if (payload) {
+                state.isLogin = true
+            } else {
+                state.isLogin = false
+            }
             db.set('token', payload)
+        },
+        SET_USER_INFO(state, payload) {
+            state.userInfo = payload
+            db.set('userInfo', JSON.stringify(payload))
         }
     },
-    actions: {
-
-    },
+    actions: {},
     getters: {
-        isLogin: state => state.token ? true : false
+        isLogin: state => state.token ? true : false,
     }
 
 }
