@@ -1,5 +1,7 @@
 <template>
   <div class="lweb-container">
+    <Head></Head>
+
     <div class="module-container">
       <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
         <ul class="layui-tab-title">
@@ -156,6 +158,7 @@
 
 <script>
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
+import Head from '@/components/Head'
 
 import Login from '@/api/login'
 
@@ -166,6 +169,7 @@ export default {
   components: {
     ValidationProvider,
     ValidationObserver,
+    Head,
   },
   data() {
     return {
@@ -237,18 +241,14 @@ export default {
   width: 1000px;
   padding: 50px;
   background-color: #fff;
-  margin-top: -150px;
   box-shadow: 0 5px 8px rgba(0, 0, 0, 0.3);
   height: 500px;
+  margin: 20px auto;
 }
 .lweb-container {
   width: 100%;
   min-height: 100vh;
   background-color: #fff;
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: center;
 }
 .forget-password {
   cursor: pointer;
@@ -264,7 +264,11 @@ export default {
   /* outline: red; */
   box-shadow: red 0px 0px 5px 1px;
 }
+.layui-form-item {
+  margin-bottom: 24px;
+}
 .error {
   color: red;
+  position: absolute;
 }
 </style>

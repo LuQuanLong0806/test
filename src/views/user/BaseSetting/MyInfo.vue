@@ -26,25 +26,6 @@
         </div>
 
         <div class="layui-form-item">
-          <label class="layui-form-label">密码</label>
-          <div class="layui-input-block layui-input-width">
-            <ValidationProvider
-              name="password"
-              rules="required"
-              v-slot="{ errors }"
-            >
-              <input
-                type="text"
-                placeholder="请输入密码"
-                class="layui-input"
-                v-model="form.password"
-              />
-              <span class="error">{{ errors[0] }}</span>
-            </ValidationProvider>
-          </div>
-        </div>
-
-        <div class="layui-form-item">
           <label class="layui-form-label">昵称</label>
           <div class="layui-input-block layui-input-width">
             <ValidationProvider
@@ -64,54 +45,6 @@
         </div>
 
         <div class="layui-form-item">
-          <label class="layui-form-label">性别</label>
-          <div class="layui-input-block d-flex">
-            <label for="gender1" class="label-margin">
-              <input
-                v-model="form.gender"
-                type="radio"
-                name="gender"
-                value="0"
-                id="gender1"
-              />
-              <i
-                class="layui-icon layui-icon-circle"
-                :class="{ 'layui-icon-radio': form.gender == 0 }"
-              ></i>
-              男
-            </label>
-            <label for="gender2" class="label-margin">
-              <input
-                v-model="form.gender"
-                type="radio"
-                name="gender"
-                value="1"
-                id="gender2"
-              />
-              <i
-                class="layui-icon layui-icon-circle"
-                :class="{ 'layui-icon-radio': form.gender == 1 }"
-              ></i>
-              女
-            </label>
-            <label for="gender3" class="label-margin">
-              <input
-                v-model="form.gender"
-                type="radio"
-                name="gender"
-                value="2"
-                id="gender3"
-              />
-              <i
-                class="layui-icon layui-icon-circle"
-                :class="{ 'layui-icon-radio': form.gender == 2 }"
-              ></i>
-              保密
-            </label>
-          </div>
-        </div>
-
-        <div class="layui-form-item">
           <label class="layui-form-label">城市</label>
           <div class="layui-input-block layui-input-width">
             <input
@@ -120,6 +53,54 @@
               class="layui-input"
               v-model="form.location"
             />
+          </div>
+        </div>
+
+        <div class="layui-form-item">
+          <label class="layui-form-label">性别</label>
+          <div class="layui-input-block d-flex">
+            <label for="gender1" class="label-margin">
+              <input
+                v-model="form.gender"
+                type="radio"
+                name="gender"
+                value="1"
+                id="gender1"
+              />
+              <i
+                class="layui-icon layui-icon-circle"
+                :class="{ 'layui-icon-radio': form.gender == 1 }"
+              ></i>
+              男
+            </label>
+            <label for="gender2" class="label-margin">
+              <input
+                v-model="form.gender"
+                type="radio"
+                name="gender"
+                value="2"
+                id="gender2"
+              />
+              <i
+                class="layui-icon layui-icon-circle"
+                :class="{ 'layui-icon-radio': form.gender == 2 }"
+              ></i>
+              女
+            </label>
+            <label for="gender3" class="label-margin">
+              <input
+                v-model="form.gender"
+                type="radio"
+                name="gender"
+                value="3"
+                id="gender3"
+              />
+              <i
+                class="layui-icon layui-icon-circle"
+                :class="{ 'layui-icon-radio': form.gender == 3 }"
+              ></i>
+              保密
+            </label>
           </div>
         </div>
 
@@ -150,10 +131,12 @@
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from "vee-validate";
+import { ValidationProvider, ValidationObserver } from 'vee-validate'
+
+import { updateUserInfo } from '@/api/user'
 
 export default {
-  name: "MyInfo",
+  name: 'MyInfo',
   components: {
     ValidationProvider,
     ValidationObserver,
@@ -161,21 +144,31 @@ export default {
   data() {
     return {
       form: {
-        name: "",
-        password: "",
-        nickname: "",
-        gender: "0",
-        location: "",
-        regmark: "",
+        name: '',
+        nickname: '',
+        gender: '0',
+        location: '',
+        regmark: '',
       },
-    };
+    }
+  },
+  mounted() {
+    let userInfo = this.$store.state.login.userInfo
+    Object.keys(this.form).forEach((d) => {
+      userInfo[d] ? (this.form[d] = userInfo[d]) : (this.form[d] = '')
+    })
   },
   methods: {
-    submit() {
-      console.log(this.form);
+    async submit() {
+      console.log(this.form)
+      const isValid = await this.$refs.ob.validate()
+      if (!isValid) return
+      updateUserInfo(this.form).then((res) => {
+        this.$pop(res.message)
+      })
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

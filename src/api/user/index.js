@@ -6,6 +6,12 @@ const userSign = (data = {}) => {
     return axios.get('/user/sign', data)
 }
 
+// 我的资料
+const updateUserInfo = (data = {}) => {
+    return axios.get('/user/basic', data)
+
+}
 export {
-    userSign
+    userSign,
+    updateUserInfo
 }

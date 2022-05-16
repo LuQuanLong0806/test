@@ -188,6 +188,7 @@ export default {
               // Object.keys(this.formData).forEach((d) => {
               //   this.formData[d] = ''
               // })
+              data.userInfo.name = this.formData.name
               this.$store.commit('login/SET_TOKEN', data.token)
               this.$store.commit('login/SET_USER_INFO', data.userInfo)
               this.$router.push({ path: '/index' })
@@ -220,6 +221,7 @@ export default {
   min-height: 100vh;
   background-color: #fff;
 }
+
 .forget-password {
   cursor: pointer;
   margin-left: 20px;
@@ -234,7 +236,11 @@ export default {
   /* outline: red; */
   box-shadow: red 0px 0px 5px 1px;
 }
+.layui-form-item {
+  margin-bottom: 24px;
+}
 .error {
   color: red;
+  position: absolute;
 }
 </style>
