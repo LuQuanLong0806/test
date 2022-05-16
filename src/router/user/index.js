@@ -4,21 +4,21 @@ const meta = {
     requiresAuth: true,
 }
 
+
+const User = () => import(/*webpackChunkName: 'UserCenter'*/ '@/views/user/User.vue');
+const Center = () => import(/*webpackChunkName: 'Center'*/ '@/views/user/Center');
+const BaseSetting = () => import(/*webpackChunkName: 'BaseSetting'*/ '@/views/user/BaseSetting/index');
+const MyPosts = () => import(/*webpackChunkName: 'MyPosts'*/ '@/views/user/MyPosts');
+const MyMessage = () => import(/*webpackChunkName: 'MyMessage'*/ '@/views/user/MyMessage');
+const Others = () => import(/*webpackChunkName: 'Others'*/ '@/views/user/Others');
+
+
 const userRoutes = [
     {
         path: '/User',
         name: 'User',
-        component: () => import(/*webpackChunkName: 'UserCenter'*/ '@/views/user/User.vue'),
+        component: User,
         redirect: '/User/Center',
-        // beforeEnter(to, form, next) {
-        //     console.log('form', form);
-        //     console.log('to', to);
-        //     if (store.state.login.isLogin) {
-        //         next()
-        //     } else {
-        //         next('/login')
-        //     }
-        // },
         meta: {
             ...meta
         },
@@ -26,7 +26,7 @@ const userRoutes = [
             {
                 path: 'Center',
                 name: 'Center',
-                component: () => import(/*webpackChunkName: 'BaseSetting'*/ '@/views/user/Center'),
+                component: Center,
                 meta: {
                     ...meta
                 },
@@ -34,7 +34,7 @@ const userRoutes = [
             {
                 path: 'BaseSetting',
                 name: 'BaseSetting',
-                component: () => import(/*webpackChunkName: 'BaseSetting'*/ '@/views/user/BaseSetting'),
+                component: BaseSetting,
                 meta: {
                     ...meta
                 },
@@ -42,7 +42,7 @@ const userRoutes = [
             {
                 path: 'MyPosts',
                 name: 'MyPosts',
-                component: () => import(/*webpackChunkName: 'MyPosts'*/ '@/views/user/MyPosts'),
+                component: MyPosts,
                 meta: {
                     ...meta
                 },
@@ -50,7 +50,7 @@ const userRoutes = [
             {
                 path: 'MyMessage',
                 name: 'MyMessage',
-                component: () => import(/*webpackChunkName: 'MyMessage'*/ '@/views/user/MyMessage'),
+                component: MyMessage,
                 meta: {
                     ...meta
                 },
@@ -58,14 +58,13 @@ const userRoutes = [
             {
                 path: 'Others',
                 name: 'Others',
-                component: () => import(/*webpackChunkName: 'Others'*/ '@/views/user/Others'),
+                component: Others,
                 meta: {
                     ...meta
                 },
             },
         ]
     },
-
 
 ]
 

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import store from 'vuex'
+import store from '@/store'
 import jwt from 'jsonwebtoken'
 import moment from 'moment'
 
@@ -9,8 +9,19 @@ import loginRoutes from './login'
 import userRoutes from './user'
 
 Vue.use(VueRouter)
+// 404
+const NotFound = () => import('@/views/NotFound')
 
 const routes = [
+    {
+        path: '*',
+        redirect: '/404',
+    },
+    {
+        path: '/404',
+        name: '404',
+        component: NotFound
+    },
     {
         path: '/',
         component: () => import('@/views/Home'),
@@ -49,10 +60,10 @@ router.beforeEach((to, from, next) => {
     let token = db.get('token');
     if (token) {
         const payload = jwt.decode(token)
-
         if (token && moment().isBefore(moment(payload.exp * 1000))) {
             // store.commit()
         } else {
+            store.commit('login/SET_TOKEN', '')
             localStorage.clear()
         }
     }

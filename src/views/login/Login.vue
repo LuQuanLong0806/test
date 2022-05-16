@@ -192,7 +192,7 @@ export default {
               this.$store.commit('login/SET_USER_INFO', data.userInfo)
               this.$router.push({ path: '/index' })
             } else {
-              this.$alert(res.message)
+              this.$pop(res.message, 'shake')
               this.$refs.capchat.setErrors([res.message])
               this.$store.commit('login/SET_IS_LOGIN', false)
             }

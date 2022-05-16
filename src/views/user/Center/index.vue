@@ -252,8 +252,7 @@ export default {
 
  <style lang="scss" scoped>
 .user-center {
-  width: calc(100% - 30px);
-  margin: 0 auto;
+
   background-color: #fff;
   padding: 20px;
 }

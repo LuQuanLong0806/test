@@ -7,11 +7,11 @@
     <div class="d-flex">
       <!-- 未登录 -->
       <ul class="d-flex" v-if="!$store.state.login.token">
-        <li>
+        <!-- <li>
           <router-link :to="{ path: '/User' }">
             <img class="user-pic" src="" alt="" />
           </router-link>
-        </li>
+        </li> -->
         <li>
           <router-link class="user-font" :to="{ path: '/login' }"
             >登录</router-link
@@ -23,14 +23,14 @@
           >
         </li>
         <li>
-          <router-link class="user-font" :to="{ path: '/User' }"
-            >QQ</router-link
-          >
+          <router-link class="user-font" :to="{ path: '/User' }">
+            <i class="layui-icon layui-icon-login-qq"></i>
+          </router-link>
         </li>
         <li>
-          <router-link class="user-font" :to="{ path: '/login' }"
-            >微博</router-link
-          >
+          <router-link class="user-font" :to="{ path: '/login' }">
+            <i class="layui-icon layui-icon-login-weibo"></i>
+          </router-link>
         </li>
       </ul>
 
@@ -41,7 +41,7 @@
             $store.state.login.userInfo.nickname
           }}</router-link>
         </span>
-        <span class="p-relative user-hover" style="width: 30px; height: 30px">
+        <span class="p-relative user-hover" style="width: 36px; height: 36px">
           <router-link :to="{ path: '/User' }">
             <img
               class="user-pic"
@@ -77,40 +77,40 @@ export default {
     return {
       userMenu: [
         {
-          link: '/index',
-          icon: 'icon-home',
-          name: '我的主页',
+          link: "/index",
+          icon: "icon-home",
+          name: "我的主页",
         },
         {
-          link: '/User/BaseSetting',
-          icon: 'icon-setting',
-          name: '基本设置',
+          link: "/User/BaseSetting",
+          icon: "icon-setting",
+          name: "基本设置",
         },
 
         {
-          link: '/User/MyMessage',
-          icon: 'icon-message-fill',
-          name: '我的消息',
+          link: "/User/MyMessage",
+          icon: "icon-message-fill",
+          name: "我的消息",
         },
       ],
-      defaultImg: require('@/assets/user/avatar.jpg'),
-    }
+      defaultImg: require("@/assets/user/avatar.jpg"),
+    };
   },
   mounted() {},
   methods: {
     logOut() {
-      this.$confirm('确定要退出吗?', () => {
-        this.$store.commit('login/SET_TOKEN', '')
-        localStorage.clear()
-        this.$router.push({ path: '/' })
-      })
+      this.$confirm("确定要退出吗?", () => {
+        this.$store.commit("login/SET_TOKEN", "");
+        localStorage.clear();
+        this.$router.push({ path: "/" });
+      });
     },
   },
-}
+};
 </script>
 
 <style lang='scss' scoped>
-@import './../assets/custom/iconfont.css';
+@import "./../assets/custom/iconfont.css";
 
 .head {
   width: 100%;
@@ -129,13 +129,16 @@ export default {
 
 $c: #fff;
 .user-font {
+  .layui-icon {
+    font-size: 22px;
+  }
   color: $c;
   font-size: 14px;
   margin: 0 10px;
 }
 .user-pic {
-  width: 30px;
-  height: 30px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   overflow: hidden;
   border: 1px solid $c;
@@ -151,7 +154,7 @@ $c: #fff;
 .i-menu {
   display: none;
   position: absolute;
-  top: 30px;
+  top: 36px;
   width: 120px;
   right: -35px;
   z-index: 100;

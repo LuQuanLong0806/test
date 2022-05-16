@@ -1,4 +1,5 @@
 // 封装axios 请求 返回封装的数据格式
+import db from '@/util/db'
 
 // 对错误的统一处理
 import axios from "axios";
@@ -35,6 +36,8 @@ class HttpRequest {
 
     // 设置拦截器
     interceptors(instance) {
+
+
         // 请求拦截器
         instance.interceptors.request.use((config) => {
             //   console.log('config~', config);
@@ -44,6 +47,13 @@ class HttpRequest {
             config.CancelToken = new CancelToken((c) => {
                 this.pending[key] = c
             })
+            // 如果有token
+            let token = db.get('token');
+            if (token) {
+                config.headers = {
+                    Authorization: 'Bearer ' + token,
+                }
+            }
 
             // 一定要rerurn config
             return config;

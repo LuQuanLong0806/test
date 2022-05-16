@@ -22,14 +22,16 @@
         </div>
       </div>
       <div class="layui-col-md10">
-        <router-view></router-view>
+        <div class="user-content">
+          <router-view></router-view>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Head from '@/components/Head'
+import Head from "@/components/Head";
 
 export default {
   components: {
@@ -39,56 +41,59 @@ export default {
     return {
       menuList: [
         {
-          link: '/index',
-          icon: 'icon-home',
-          name: '我的主页',
-          activeClass: 'layui-this',
+          link: "/index",
+          icon: "icon-home",
+          name: "我的主页",
+          activeClass: "layui-this",
         },
         {
-          link: '/User/Center',
-          icon: 'icon-user-fill',
-          name: '用户中心',
-          activeClass: 'layui-this',
+          link: "/User/Center",
+          icon: "icon-user-fill",
+          name: "用户中心",
+          activeClass: "layui-this",
         },
         {
-          link: '/User/BaseSetting',
-          icon: 'icon-setting',
-          name: '基本设置',
-          activeClass: 'layui-this',
+          link: "/User/BaseSetting",
+          icon: "icon-setting",
+          name: "基本设置",
+          activeClass: "layui-this",
         },
         {
-          link: '/User/MyPosts',
-          icon: 'icon-text',
-          name: '我的帖子',
-          activeClass: 'layui-this',
+          link: "/User/MyPosts",
+          icon: "icon-text",
+          name: "我的帖子",
+          activeClass: "layui-this",
         },
         {
-          link: '/User/MyMessage',
-          icon: 'icon-message-fill',
-          name: '我的消息',
-          activeClass: 'layui-this',
+          link: "/User/MyMessage",
+          icon: "icon-message-fill",
+          name: "我的消息",
+          activeClass: "layui-this",
         },
         {
-          link: '/User/Others',
-          icon: 'icon-product',
-          name: '其他设置',
-          activeClass: 'layui-this',
+          link: "/User/Others",
+          icon: "icon-product",
+          name: "其他设置",
+          activeClass: "layui-this",
         },
       ],
-    }
+    };
   },
-}
+};
 </script>
 
 <style scoped>
-@import './../../assets/custom/iconfont.css';
+@import "./../../assets/custom/iconfont.css";
 
 @media (max-width: 1170px) {
   .user-menu {
     display: none;
   }
 }
-
+.user-content {
+  width: calc(100% - 30px);
+  margin: 0 auto;
+}
 .user-menu {
   background-color: #393d49;
   width: 200px;
