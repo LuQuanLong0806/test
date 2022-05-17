@@ -4,9 +4,11 @@
       <TabItem>
         <MyInfo></MyInfo>
       </TabItem>
-      <TabItem> 222222 </TabItem>
-      <TabItem> 333333 </TabItem>
-      <TabItem> 444444 </TabItem>
+      <TabItem>
+        头像
+      </TabItem>
+      <TabItem> 密码 </TabItem>
+      <TabItem> 账号绑定 </TabItem>
     </Tabs>
   </div>
 </template>

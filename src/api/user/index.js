@@ -8,7 +8,7 @@ const userSign = (data = {}) => {
 
 // 我的资料
 const updateUserInfo = (data = {}) => {
-    return axios.get('/user/basic', data)
+    return axios.post('/user/basic', data)
 
 }
 export {
