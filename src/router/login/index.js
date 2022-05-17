@@ -1,28 +1,31 @@
 
-const loginRoutes = [
+const Login = () => import(/*webpackChunkName: 'login'*/ '@/views/login/Login.vue')
+const Forget = () => import(/*webpackChunkName: 'login'*/ '@/views/login/Forget.vue')
+const Register = () => import(/*webpackChunkName: 'login'*/ '@/views/login/Register.vue')
 
+const loginRoutes = [
     {
         path: '/login',
         name: 'Login',
-        component: () => import(/*webpackChunkName: 'login'*/ '@/views/login/Login.vue')
+        component: Login
     },
     {
         path: '/forget',
         name: 'Forget',
-        component: () => import(/*webpackChunkName: 'login'*/ '@/views/login/Forget.vue')
+        component: Forget
     },
     {
         path: '/register',
         name: 'Register',
-        component: () => import(/*webpackChunkName: 'login'*/ '@/views/login/Register.vue'),
-        beforeEnter: (to, from, next) => {
-            console.log(to, from);
-            if (from.name == 'Login') {
-                next()
-            } else {
-                next('/login')
-            }
-        }
+        component: Register,
+        // beforeEnter: (to, from, next) => {
+        //     console.log(to, from);
+        //     if (from.name == 'Login') {
+        //         next()
+        //     } else {
+        //         next('/login')
+        //     }
+        // }
     },
 ]
 

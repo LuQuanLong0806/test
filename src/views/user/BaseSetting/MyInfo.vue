@@ -119,6 +119,7 @@
         <div class="layui-form-item">
           <button
             class="layui-btn"
+            :class="{ 'layui-btn-disabled': isSubmit }"
             type="button"
             @click="validate().then(submit)"
           >
@@ -150,6 +151,7 @@ export default {
         location: '',
         regmark: '',
       },
+      isSubmit: false,
     }
   },
   mounted() {
@@ -163,7 +165,16 @@ export default {
       console.log(this.form)
       const isValid = await this.$refs.ob.validate()
       if (!isValid) return
+      this.isSubmit = true
       updateUserInfo(this.form).then((res) => {
+        this.isSubmit = false
+
+        if (res.code == 200) {
+          let data = res.data
+          // 前端更新用户资料
+          let userInfo = this.$store.state.login.userInfo
+          this.$store.commit('login/SET_USER_INFO', { ...userInfo, ...data })
+        }
         this.$pop(res.message)
       })
     },

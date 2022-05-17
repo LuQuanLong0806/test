@@ -11,6 +11,11 @@ import userRoutes from './user'
 Vue.use(VueRouter)
 // 404
 const NotFound = () => import('@/views/NotFound')
+const Index = () => import('@/views/channels/index')
+const Ask = () => import('@/views/Template')
+const postNew = () => import('@/views/postNew')
+const Confirm = () => import('@/views/Confirm')
+const Reset = () => import('@/views/Reset')
 
 const routes = [
     {
@@ -29,17 +34,32 @@ const routes = [
         children: [
             {
                 path: 'index',
-                component: () => import('@/views/channels/index'),
+                name: 'index',
+                component: Index,
             },
             {
                 path: 'ask',
-                component: () => import('@/views/Template'),
-            }
+                name: 'ask',
+                component: Ask,
+            },
+
         ]
     },
     {
         path: '/postNew',
-        component: () => import('@/views/postNew'),
+        name: 'postNew',
+        component: postNew,
+    },
+
+    {
+        path: '/confirm',
+        name: 'Confirm',
+        component: Confirm,
+    },
+    {
+        path: '/reset',
+        name: 'Reset',
+        component: Reset,
     },
     {
         path: '/test',
