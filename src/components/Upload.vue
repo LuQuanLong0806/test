@@ -1,79 +1,66 @@
 <template>
-  <div class="upload">
-    <div>
-      <label type="button" class="layui-btn upload-img">
-        <i class="layui-icon layui-icon-upload-drag"></i>上传头像
-        <input
-          class="upload-input"
-          type="file"
-          name="file"
-          accept="image/png, image/gif, image/jpg"
-          @change="upload"
-        />
-      </label>
-    </div>
+  <div>
+    <label type="button" class="layui-btn upload-img">
+      <i class="layui-icon layui-icon-upload-drag"></i>上传头像
+      <input
+        class="upload-input"
+        type="file"
+        name="file"
+        accept="image/png, image/gif, image/jpg"
+        @change="upload"
+      />
+    </label>
   </div>
 </template>
 
 <script>
-import axios from '@/api/request'
+import axios from "@/api/request";
 
 export default {
   props: {
     action: {
       type: String,
-      default: '',
+      default: "",
     },
     onSuccess: {
       type: Function,
       default() {
-        return () => {}
+        return () => {};
       },
     },
     onError: {
       type: Function,
       default() {
-        return () => {}
+        return () => {};
       },
     },
   },
   data() {
-    return {
-      pic: '',
-      formData: '',
-    }
+    return {};
   },
   methods: {
     upload(e) {
-      console.log('e~', e)
-      let file = e.target.files
+      console.log("e~", e);
+      let file = e.target.files;
 
-      let formData = new FormData()
+      let formData = new FormData();
 
       if (file.length > 0) {
-        formData.append('file', file[0])
-        this.formData = formData
+        formData.append("file", file[0]);
       }
-
       axios.post(this.action, formData).then((res) => {
         if (res.code == 200) {
-          this.onSuccess(res)
+          this.onSuccess(res);
         } else {
-          this.onError(res)
+          this.onError(res);
         }
-      })
+      });
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
-.upload {
-  width: 520px;
-  margin: 0 auto;
-}
-.upload-img {
-}
 .upload-input {
   display: none !important;
 }

@@ -77,40 +77,40 @@ export default {
     return {
       userMenu: [
         {
-          link: '/index',
-          icon: 'icon-home',
-          name: '我的主页',
+          link: "/index",
+          icon: "icon-home",
+          name: "我的主页",
         },
         {
-          link: '/User/BaseSetting',
-          icon: 'icon-setting',
-          name: '基本设置',
+          link: "/User/BaseSetting",
+          icon: "icon-setting",
+          name: "基本设置",
         },
 
         {
-          link: '/User/MyMessage',
-          icon: 'icon-message-fill',
-          name: '我的消息',
+          link: "/User/MyMessage",
+          icon: "icon-message-fill",
+          name: "我的消息",
         },
       ],
-      defaultImg: require('@/assets/user/avatar.jpg'),
-    }
+      defaultImg: require("@/assets/user/avatar.jpg"),
+    };
   },
   mounted() {},
   methods: {
     logOut() {
-      this.$confirm('确定要退出登录吗?', () => {
-        this.$store.commit('login/SET_TOKEN', '')
-        localStorage.clear()
-        this.$router.push({ path: '/' })
-      })
+      this.$confirm("确定要退出登录吗?", () => {
+        this.$store.commit("login/SET_TOKEN", "");
+        localStorage.clear();
+        this.$router.push({ path: "/" });
+      });
     },
   },
-}
+};
 </script>
 
 <style lang='scss' scoped>
-@import './../assets/custom/iconfont.css';
+@import "./../assets/custom/iconfont.css";
 
 .head {
   width: 100%;
@@ -141,7 +141,9 @@ $c: #fff;
   height: 36px;
   border-radius: 50%;
   overflow: hidden;
-  border: 1px solid $c;
+  //   border: 1px solid $c;
+  box-shadow: 0 0 6px 2px rgba(255, 255, 255, 1);
+
   cursor: pointer;
 }
 .p-relative {

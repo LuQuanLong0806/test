@@ -1,12 +1,15 @@
 <template>
-  <div class="upload">
-    <Upload :action="url" :on-success="uploadSuccess"></Upload>
-    <img class="user-pic" :src="pic" alt="" />
+  <div class="upload d-flex">
+    <div class="upload-container">
+      <Upload :action="url" :on-success="uploadSuccess"></Upload>
+      <span class="tips">上传图片格式为: .jpg .png .gif 且大小不超过5M!</span>
+    </div>
+    <img class="user-pic" :src="$store.state.login.userInfo.pic" alt="" />
   </div>
 </template>
 
 <script>
-import Upload from '@/components/Upload'
+import Upload from "@/components/Upload";
 
 export default {
   components: {
@@ -14,23 +17,27 @@ export default {
   },
   data() {
     return {
-      pic: '',
-      url: '/content/upload',
-    }
+      pic: "",
+      url: "/content/upload",
+    };
   },
   methods: {
     uploadSuccess(res) {
-      console.log(res)
-      this.pic = 'http://localhost:9090' + res.data
+      this.$pop(res.message, "shake");
+      let userInfo = this.$store.state.login.userInfo;
+      userInfo.pic = "http://localhost:9090" + res.data;
+      this.$store.commit("login/SET_USER_INFO", userInfo);
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
 .upload {
-  width: 520px;
-  margin: 0 auto;
+  margin: 30px;
+}
+.upload-container {
+  margin-right: 40px;
 }
 .upload-img {
 }
@@ -38,8 +45,14 @@ export default {
   display: none !important;
 }
 .user-pic {
-  width: 120px;
-  height: 120px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
+}
+.tips {
+  font-size: 12px;
+  color: #333;
+  margin: 10px 0;
+  display: block;
 }
 </style>
