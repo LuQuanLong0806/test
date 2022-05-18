@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="bgc">
     <Head></Head>
     <router-view></router-view>
   </div>
@@ -18,4 +18,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.bgc{
+    background-color: #fff;
+}
 </style>

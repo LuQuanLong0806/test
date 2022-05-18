@@ -24,7 +24,7 @@ const routes = [
     },
     {
         path: '/404',
-        name: '404',
+        name: 'NotFound',
         component: NotFound
     },
     {
@@ -95,7 +95,7 @@ router.beforeEach((to, from, next) => {
         if (token) {
             next()
         } else {
-            next('/login')
+            next('/entrance/login')
         }
     } else {
         next()

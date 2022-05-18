@@ -6,7 +6,7 @@
         class="upload-input"
         type="file"
         name="file"
-        accept="image/png, image/gif, image/jpg"
+        accept="image/png, image/gif, image/jpg, image/webp"
         @change="upload"
       />
     </label>

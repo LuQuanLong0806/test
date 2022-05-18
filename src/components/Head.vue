@@ -13,12 +13,12 @@
           </router-link>
         </li> -->
         <li>
-          <router-link class="user-font" :to="{ path: '/login' }"
+          <router-link class="user-font" :to="{ path: '/entrance/login' }"
             >登录</router-link
           >
         </li>
         <li>
-          <router-link class="user-font" :to="{ path: '/register' }"
+          <router-link class="user-font" :to="{ path: '/entrance/register' }"
             >注册</router-link
           >
         </li>
@@ -28,7 +28,7 @@
           </router-link>
         </li>
         <li>
-          <router-link class="user-font" :to="{ path: '/login' }">
+          <router-link class="user-font" :to="{ path: '/entrance/login' }">
             <i class="layui-icon layui-icon-login-weibo"></i>
           </router-link>
         </li>
@@ -116,6 +116,7 @@ export default {
   width: 100%;
   height: 80px;
   background-color: #222;
+//   background-color: #0aa1ed;
   justify-content: space-between;
   padding: 0 50px;
   box-sizing: border-box;

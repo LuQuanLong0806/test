@@ -1,11 +1,10 @@
 <template>
   <div class="lweb-container">
-    <Head></Head>
     <div class="module-container">
       <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
         <ul class="layui-tab-title">
           <li class="layui-this">登录</li>
-          <li @click="$router.push({ path: '/register' })">注册</li>
+          <li @click="$router.push({ path: '/entrance/register' })">注册</li>
         </ul>
       </div>
       <!-- 登录验证 -->
@@ -94,11 +93,10 @@
                 >
                   点击登录
                 </button>
-                <a
-                  href="javascript:;"
+                <router-link
                   class="forget-password"
-                  @click="$router.push({ path: '/forget' })"
-                  >忘记密码?</a
+                  :to="{ path: '/entrance/forget' }"
+                  >忘记密码? 前往找回</router-link
                 >
               </div>
             </div>
@@ -110,101 +108,99 @@
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from 'vee-validate'
-import Head from '@/components/Head'
-import Login from '@/api/login'
+import { ValidationProvider, ValidationObserver } from "vee-validate";
+import Login from "@/api/login";
 
-import { v4 as uuidv4 } from 'uuid'
+import { v4 as uuidv4 } from "uuid";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     ValidationProvider,
     ValidationObserver,
-    Head,
   },
   data() {
     return {
-      svg: '',
+      svg: "",
       formData: {
-        name: '',
-        password: '',
-        capchat: '',
+        name: "",
+        password: "",
+        capchat: "",
       },
       registerData: {
-        name: '',
-        nickname: '',
-        password: '',
-        surepassword: '',
-        capchat: '',
+        name: "",
+        nickname: "",
+        password: "",
+        surepassword: "",
+        capchat: "",
       },
 
       errprMsg: [],
       tab: 0,
-    }
+    };
   },
 
   created() {},
   mounted() {
-    window.vue = this
-    let sid = ''
-    if (localStorage.getItem('sid')) {
-      sid = localStorage.getItem('sid')
+    window.vue = this;
+    let sid = "";
+    if (localStorage.getItem("sid")) {
+      sid = localStorage.getItem("sid");
     } else {
-      sid = uuidv4()
-      localStorage.setItem('sid', sid)
+      sid = uuidv4();
+      localStorage.setItem("sid", sid);
     }
-    this.$store.commit('SET_SID', sid)
-    console.log(sid)
-    this.getCaptcha()
+    this.$store.commit("SET_SID", sid);
+    console.log(sid);
+    this.getCaptcha();
   },
   methods: {
     // 校验两次密码是否一致
     checkPassword() {
-      console.log('请确认密码')
-      console.log(this.$refs.surepassword)
-      this.$refs.surepassword.setErrors(['两次密码输入不一致'])
+      console.log("请确认密码");
+      console.log(this.$refs.surepassword);
+      this.$refs.surepassword.setErrors(["两次密码输入不一致"]);
     },
     setName(value) {
-      this.formData.name = value
+      this.formData.name = value;
     },
     getCaptcha() {
-      let sid = this.$store.state.sid
+      let sid = this.$store.state.sid;
       Login.getCaptcha({ sid }).then((res) => {
         if (res.code == 200) {
-          this.svg = res.data
+          this.svg = res.data;
         }
-      })
+      });
     },
     async submit() {
-      let valid = await this.$refs.ob.validate()
+      let valid = await this.$refs.ob.validate();
       if (valid) {
         Login.login({ ...this.formData, sid: this.$store.state.sid })
           .then((res) => {
             if (res.code == 200) {
-              console.log('res', res.data)
-              let data = res.data
+              console.log("res", res.data);
+              let data = res.data;
               //   this.$alert(res.message);
               // Object.keys(this.formData).forEach((d) => {
               //   this.formData[d] = ''
               // })
-              data.userInfo.name = this.formData.name
-              this.$store.commit('login/SET_TOKEN', data.token)
-              this.$store.commit('login/SET_USER_INFO', data.userInfo)
-              this.$router.push({ path: '/index' })
+              data.userInfo.name = this.formData.name;
+              this.$store.commit("login/SET_TOKEN", data.token);
+              this.$store.commit("login/SET_USER_INFO", data.userInfo);
+              this.$router.push({ path: "/index" });
             } else {
-              this.$pop(res.message, 'shake')
-              this.$refs.capchat.setErrors([res.message])
-              this.$store.commit('login/SET_IS_LOGIN', false)
+              this.$pop(res.message, "shake");
+              this.$refs.capchat.setErrors([res.message]);
+              this.$store.commit("login/SET_IS_LOGIN", false);
             }
           })
           .catch((err) => {
-            console.log(err)
-          })
+            console.log(err);
+          });
       }
     },
   },
-}
+};
 </script>
 
 <style scoped>
@@ -214,12 +210,13 @@ export default {
   background-color: #fff;
   box-shadow: 0 5px 8px rgba(0, 0, 0, 0.3);
   height: 500px;
-  margin: 20px auto;
+  margin: 0 auto;
 }
 .lweb-container {
   width: 100%;
-  min-height: 100vh;
+  height: calc(100vh - 80px);
   background-color: #fff;
+  padding-top: 20px;
 }
 
 .forget-password {

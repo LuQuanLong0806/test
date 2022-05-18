@@ -10,12 +10,23 @@ const getCaptcha = (data = {}) => {
 const login = (data) => {
     return axios.post('/login/login', data)
 }
-
+// 注册
 const reg = (data) => {
     return axios.post('/login/register', data)
 }
+// 找回密码
+const retrievePwd = (data) => {
+    return axios.get('/login/retrievePwd', data)
+}
+// 重置密码
+const resetPwd = (data) => {
+    return axios.get('/login/resetPwd', data)
+}
+
 export default {
     getCaptcha,
     login,
-    reg
+    reg,
+    retrievePwd,
+    resetPwd
 }
