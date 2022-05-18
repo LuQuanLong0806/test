@@ -17,9 +17,18 @@ const updateUserName = (data = {}) => {
     return axios.get('/public/resetEail?' + qs.stringify(data))
 }
 
-
 export {
     userSign,
     updateUserInfo,
     updateUserName
+}
+
+// 修改密码
+export const changePassword = (data) => {
+    return axios.post('/user/changePassword', data)
+}
+
+// 获取用户信息
+export const getUserInfo = (data) => {
+    return axios.post('/user/info', data)
 }

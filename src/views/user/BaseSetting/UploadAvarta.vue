@@ -9,27 +9,32 @@
 </template>
 
 <script>
-import Upload from "@/components/Upload";
-
+import Upload from '@/components/Upload'
+import { getUserInfo } from '@/api/user'
 export default {
   components: {
     Upload,
   },
   data() {
     return {
-      pic: "",
-      url: "/content/upload",
-    };
+      pic: '',
+      url: '/content/upload',
+    }
   },
   methods: {
     uploadSuccess(res) {
-      this.$pop(res.message, "shake");
-      let userInfo = this.$store.state.login.userInfo;
-      userInfo.pic = "http://localhost:9090" + res.data;
-      this.$store.commit("login/SET_USER_INFO", userInfo);
+      this.$pop(res.message, 'shake')
+      let name = this.$store.state.login.userInfo.name
+      // userInfo.pic = res.data
+
+      getUserInfo({ name }).then((res) => {
+        if (res.code == 200) {
+          this.$store.commit('login/SET_USER_INFO', res.data)
+        }
+      })
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

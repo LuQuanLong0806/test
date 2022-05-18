@@ -21,6 +21,7 @@ localize('zh_CN', {
     "name": '用户名',
     'password': '密码',
     'capchat': '验证码',
+    'oldpwd': '当前密码'
   },
   // key 和上面组件绑定的 name 对应  里面的内容 是对规则的校验
   fields: {

@@ -14,50 +14,50 @@
 </template>
 
 <script>
-import axios from "@/api/request";
+import axios from '@/api/request'
 
 export default {
   props: {
     action: {
       type: String,
-      default: "",
+      default: '',
     },
     onSuccess: {
       type: Function,
       default() {
-        return () => {};
+        return () => {}
       },
     },
     onError: {
       type: Function,
       default() {
-        return () => {};
+        return () => {}
       },
     },
   },
   data() {
-    return {};
+    return {}
   },
   methods: {
     upload(e) {
-      console.log("e~", e);
-      let file = e.target.files;
+      console.log('e~', e)
+      let file = e.target.files
 
-      let formData = new FormData();
+      let formData = new FormData()
 
       if (file.length > 0) {
-        formData.append("file", file[0]);
+        formData.append('file', file[0])
       }
       axios.post(this.action, formData).then((res) => {
         if (res.code == 200) {
-          this.onSuccess(res);
+          this.onSuccess(res)
         } else {
-          this.onError(res);
+          this.onError(res)
         }
-      });
+      })
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

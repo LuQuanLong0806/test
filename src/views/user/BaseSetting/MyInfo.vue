@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="padding: 30px">
     <ValidationObserver ref="ob" v-slot="{ validate }">
       <div class="layui-form layui-form-pane">
         <div class="layui-form-item">
@@ -134,7 +134,7 @@
 <script>
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 
-import { updateUserInfo } from '@/api/user'
+import { updateUserInfo, getUserInfo } from '@/api/user'
 
 export default {
   name: 'MyInfo',
@@ -161,6 +161,14 @@ export default {
     })
   },
   methods: {
+    getInfo(name) {
+      getUserInfo({ name }).then((res) => {
+        if (res.code == 200) {
+          this.$store.commit('login/SET_USER_INFO', res.data)
+        }
+      })
+    },
+
     async submit() {
       console.log(this.form)
       const isValid = await this.$refs.ob.validate()
@@ -168,12 +176,10 @@ export default {
       this.isSubmit = true
       updateUserInfo(this.form).then((res) => {
         this.isSubmit = false
-
         if (res.code == 200) {
-          let data = res.data
+          let name = this.$store.state.login.userInfo.name
+          this.getInfo(name)
           // 前端更新用户资料
-          let userInfo = this.$store.state.login.userInfo
-          this.$store.commit('login/SET_USER_INFO', { ...userInfo, ...data })
         }
         this.$pop(res.message)
       })

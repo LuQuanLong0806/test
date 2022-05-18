@@ -7,7 +7,7 @@
       <TabItem>
         <UploadAvarta></UploadAvarta>
       </TabItem>
-      <TabItem> 密码 </TabItem>
+      <TabItem> <Password></Password> </TabItem>
       <TabItem> 账号绑定 </TabItem>
     </Tabs>
   </div>
@@ -19,6 +19,7 @@ import TabItem from '@/components/Tabs/TabItem'
 
 import MyInfo from './MyInfo.vue'
 import UploadAvarta from './UploadAvarta.vue'
+import Password from './Password.vue'
 
 export default {
   name: 'base-setting',
@@ -27,6 +28,7 @@ export default {
     TabItem,
     MyInfo,
     UploadAvarta,
+    Password,
   },
   data() {
     return {

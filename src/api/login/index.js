@@ -23,6 +23,8 @@ const resetPwd = (data) => {
     return axios.get('/login/resetPwd', data)
 }
 
+
+
 export default {
     getCaptcha,
     login,
