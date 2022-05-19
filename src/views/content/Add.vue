@@ -124,19 +124,23 @@
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from "vee-validate";
-
-import Editor from "@/components/modules/editor";
+import captchaMixin from '@/mixin/captchaMixin'
+import Editor from '@/components/modules/editor'
 export default {
-  name: "Add",
-  components: { Editor, ValidationProvider, ValidationObserver },
+  name: 'Add',
+  components: { Editor },
   data() {
-    return {};
+    return {
+      formData: {
+        captcha: '',
+      },
+    }
   },
+  mixins: [captchaMixin],
   methods: {
     submit() {},
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

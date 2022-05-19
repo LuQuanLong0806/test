@@ -2,7 +2,7 @@
 import axios from "@/api/request";
 
 // 获取验证码方法
-const getCaptcha = (data = {}) => {
+export const getCaptcha = (data = {}) => {
     return axios.get('/public/captcha', data)
 }
 

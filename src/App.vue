@@ -11,25 +11,28 @@
 <script>
 // import LoginVuelidate from "@/components/LoginVuelidate";
 // import LoginVeeValidate from '@/components/LoginVeeValidate'
-import Head from "@/components/Head";
+import Head from '@/components/Head'
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
     Head,
     // LoginVuelidate,
     // LoginVeeValidate,
   },
   data() {
-    return {};
+    return {}
   },
   validations: {},
   created() {},
   methods: {},
-};
+}
 </script>
 
 <style  lang="scss">
+@import './assets/css/global.css';
+@import './assets/css/layui-layer/layer.css';
+
 .d-flex {
   display: flex;
   align-items: center;
@@ -57,7 +60,10 @@ export default {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-
+.error {
+  color: red;
+  position: absolute;
+}
 #app {
   background-color: rgb(240, 240, 240);
   min-height: 100vh;
