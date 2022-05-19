@@ -4,7 +4,7 @@
       <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
         <ul class="layui-tab-title">
           <li class="layui-this">登录</li>
-          <li @click="$router.push({ path: '/entrance/register' })">注册</li>
+          <li @click="$router.push({ path: '/register' })">注册</li>
         </ul>
       </div>
       <!-- 登录验证 -->
@@ -93,9 +93,7 @@
                 >
                   点击登录
                 </button>
-                <router-link
-                  class="forget-password"
-                  :to="{ path: '/entrance/forget' }"
+                <router-link class="forget-password" :to="{ path: '/forget' }"
                   >忘记密码? 前往找回</router-link
                 >
               </div>
@@ -108,100 +106,96 @@
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from 'vee-validate'
-import Login from '@/api/login'
-import { getUserInfo } from '@/api/user'
-import { v4 as uuidv4 } from 'uuid'
+import { ValidationProvider, ValidationObserver } from "vee-validate";
+import Login from "@/api/login";
+import { getUserInfo } from "@/api/user";
+import { v4 as uuidv4 } from "uuid";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     ValidationProvider,
     ValidationObserver,
   },
   data() {
     return {
-      svg: '',
+      svg: "",
       formData: {
-        name: '',
-        password: '',
-        capchat: '',
+        name: "",
+        password: "",
+        capchat: "",
       },
       registerData: {
-        name: '',
-        nickname: '',
-        password: '',
-        surepassword: '',
-        capchat: '',
+        name: "",
+        nickname: "",
+        password: "",
+        surepassword: "",
+        capchat: "",
       },
 
       errprMsg: [],
       tab: 0,
-    }
+    };
   },
 
   created() {},
   mounted() {
-    window.vue = this
-    let sid = ''
-    if (localStorage.getItem('sid')) {
-      sid = localStorage.getItem('sid')
+    window.vue = this;
+    let sid = "";
+    if (localStorage.getItem("sid")) {
+      sid = localStorage.getItem("sid");
     } else {
-      sid = uuidv4()
-      localStorage.setItem('sid', sid)
+      sid = uuidv4();
+      localStorage.setItem("sid", sid);
     }
-    this.$store.commit('SET_SID', sid)
-    console.log(sid)
-    this.getCaptcha()
+    this.$store.commit("SET_SID", sid);
+    console.log(sid);
+    this.getCaptcha();
   },
   methods: {
     // 校验两次密码是否一致
     checkPassword() {
-      console.log('请确认密码')
-      console.log(this.$refs.surepassword)
-      this.$refs.surepassword.setErrors(['两次密码输入不一致'])
+      console.log("请确认密码");
+      console.log(this.$refs.surepassword);
+      this.$refs.surepassword.setErrors(["两次密码输入不一致"]);
     },
     setName(value) {
-      this.formData.name = value
+      this.formData.name = value;
     },
     getCaptcha() {
-      let sid = this.$store.state.sid
+      let sid = this.$store.state.sid;
       Login.getCaptcha({ sid }).then((res) => {
         if (res.code == 200) {
-          this.svg = res.data
+          this.svg = res.data;
         }
-      })
-    },
-    // 获取用户信息接口
-    getInfo(name) {
-      getUserInfo({ name }).then((res) => {
-        this.$store.commit('login/SET_USER_INFO', res.data)
-        this.$router.push({ path: '/index' })
-      })
+      });
     },
     async submit() {
-      let valid = await this.$refs.ob.validate()
+      let valid = await this.$refs.ob.validate();
       if (valid) {
         Login.login({ ...this.formData, sid: this.$store.state.sid })
           .then((res) => {
             if (res.code == 200) {
-              let data = res.data
-              this.$store.commit('login/SET_TOKEN', data.token)
+              let data = res.data;
+              this.$store.commit("login/SET_TOKEN", data.token);
               // 获取用户信息
-              this.getInfo(this.formData.name)
+              getUserInfo().then((res) => {
+                this.$store.commit("login/SET_USER_INFO", res.data);
+                this.$router.push({ path: "/index" });
+              });
             } else {
-              this.$pop(res.message, 'shake')
-              this.$refs.capchat.setErrors([res.message])
-              this.$store.commit('login/SET_IS_LOGIN', false)
+              this.$pop(res.message, "shake");
+              this.$refs.capchat.setErrors([res.message]);
+              this.$store.commit("login/SET_IS_LOGIN", false);
             }
           })
           .catch((err) => {
-            console.log(err)
-          })
+            console.log(err);
+          });
       }
     },
   },
-}
+};
 </script>
 
 <style scoped>

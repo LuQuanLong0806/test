@@ -3,7 +3,7 @@
     <div class="module-container">
       <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
         <ul class="layui-tab-title">
-          <!-- <li @click="$router.push({ path: '/entrance/login' })">登录</li> -->
+          <!-- <li @click="$router.push({ path: '/login' })">登录</li> -->
           <li class="layui-this">找回密码</li>
         </ul>
       </div>

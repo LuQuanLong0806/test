@@ -7,6 +7,7 @@ import moment from 'moment'
 import db from '@/util/db'
 import loginRoutes from './login'
 import userRoutes from './user'
+import contentRoutes from './content'
 
 Vue.use(VueRouter)
 // 404
@@ -15,7 +16,6 @@ const Index = () => import('@/views/channels/index')
 const Ask = () => import('@/views/Template')
 const postNew = () => import('@/views/postNew')
 const Confirm = () => import('@/views/Confirm')
-const Reset = () => import('@/views/Reset')
 
 const routes = [
     {
@@ -56,17 +56,14 @@ const routes = [
         name: 'Confirm',
         component: Confirm,
     },
-    {
-        path: '/reset',
-        name: 'Reset',
-        component: Reset,
-    },
+
     {
         path: '/test',
         component: () => import('@/views/Test'),
     },
     ...loginRoutes,
-    ...userRoutes
+    ...userRoutes,
+    ...contentRoutes
 ]
 
 let router = new VueRouter({
@@ -95,7 +92,7 @@ router.beforeEach((to, from, next) => {
         if (token) {
             next()
         } else {
-            next('/entrance/login')
+            next('/login')
         }
     } else {
         next()

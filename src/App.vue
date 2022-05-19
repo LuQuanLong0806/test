@@ -2,6 +2,8 @@
   <div id="app">
     <!-- <LoginVuelidate></LoginVuelidate> -->
     <!-- <LoginVeeValidate></LoginVeeValidate> -->
+    <Head></Head>
+
     <router-view></router-view>
   </div>
 </template>
@@ -9,20 +11,22 @@
 <script>
 // import LoginVuelidate from "@/components/LoginVuelidate";
 // import LoginVeeValidate from '@/components/LoginVeeValidate'
+import Head from "@/components/Head";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
+    Head,
     // LoginVuelidate,
     // LoginVeeValidate,
   },
   data() {
-    return {}
+    return {};
   },
   validations: {},
   created() {},
   methods: {},
-}
+};
 </script>
 
 <style  lang="scss">

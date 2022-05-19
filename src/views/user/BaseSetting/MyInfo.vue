@@ -132,12 +132,12 @@
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from 'vee-validate'
+import { ValidationProvider, ValidationObserver } from "vee-validate";
 
-import { updateUserInfo, getUserInfo } from '@/api/user'
+import { updateUserInfo, getUserInfo } from "@/api/user";
 
 export default {
-  name: 'MyInfo',
+  name: "MyInfo",
   components: {
     ValidationProvider,
     ValidationObserver,
@@ -145,47 +145,42 @@ export default {
   data() {
     return {
       form: {
-        name: '',
-        nickname: '',
-        gender: '0',
-        location: '',
-        regmark: '',
+        name: "",
+        nickname: "",
+        gender: "0",
+        location: "",
+        regmark: "",
       },
       isSubmit: false,
-    }
+    };
   },
   mounted() {
-    let userInfo = this.$store.state.login.userInfo
+    let userInfo = this.$store.state.login.userInfo;
     Object.keys(this.form).forEach((d) => {
-      userInfo[d] ? (this.form[d] = userInfo[d]) : (this.form[d] = '')
-    })
+      userInfo[d] ? (this.form[d] = userInfo[d]) : (this.form[d] = "");
+    });
   },
   methods: {
-    getInfo(name) {
-      getUserInfo({ name }).then((res) => {
-        if (res.code == 200) {
-          this.$store.commit('login/SET_USER_INFO', res.data)
-        }
-      })
-    },
-
     async submit() {
-      console.log(this.form)
-      const isValid = await this.$refs.ob.validate()
-      if (!isValid) return
-      this.isSubmit = true
+      console.log(this.form);
+      const isValid = await this.$refs.ob.validate();
+      if (!isValid) return;
+      this.isSubmit = true;
       updateUserInfo(this.form).then((res) => {
-        this.isSubmit = false
+        this.isSubmit = false;
         if (res.code == 200) {
-          let name = this.$store.state.login.userInfo.name
-          this.getInfo(name)
           // 前端更新用户资料
+          getUserInfo().then((res) => {
+            if (res.code == 200) {
+              this.$store.commit("login/SET_USER_INFO", res.data);
+            }
+          });
         }
-        this.$pop(res.message)
-      })
+        this.$pop(res.message);
+      });
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>

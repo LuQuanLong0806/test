@@ -1,22 +1,39 @@
 <template>
-  <div class="outer">Links</div>
+  <div class="fly-panel fly-link">
+    <h3 class="fly-panel-title">友情链接</h3>
+    <dl class="fly-panel-main">
+      <dd>
+        <a href="/" target="_blank">layui</a>
+      </dd>
+      <dd></dd>
+      <dd>
+        <a href="http://layim.layui.com/" target="_blank">WebIM</a>
+      </dd>
+      <dd></dd>
+      <dd>
+        <a href="http://layer.layui.com/" target="_blank">layer</a>
+      </dd>
+      <dd></dd>
+      <dd>
+        <a href="/laydate/" target="_blank">layDate</a>
+      </dd>
+      <dd></dd>
+      <dd>
+        <a
+          href="mailto:xianxin@layui-inc.com?subject=%E7%94%B3%E8%AF%B7Fly%E7%A4%BE%E5%8C%BA%E5%8F%8B%E9%93%BE"
+          class="fly-link"
+        >申请友链</a>
+      </dd>
+      <dd></dd>
+    </dl>
+  </div>
 </template>
 
 <script>
 export default {
-  name: "Links",
-  data() {
-    return {};
-  },
-};
+  name: 'links'
+}
 </script>
 
-<style scoped>
-.outer {
-  width: 100%;
-  min-height: 300px;
-  background-color: #fff;
-  box-sizing: border-box;
-  border-radius: 5px;
-}
+<style lang="scss" scoped>
 </style>

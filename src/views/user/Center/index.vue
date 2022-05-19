@@ -3,7 +3,7 @@
     <div class="center-title">
       Hi,
       <span class="center-title-name">
-        {{ $store.state.login.userInfo.nickname }}
+        {{ userInfo.nickname }}
       </span>
       , 你已经是我们的正式会员!
     </div>
@@ -19,11 +19,14 @@
           <td>
             <p>
               积分经验值:
-              <span class="font-orange">{{
-                $store.state.login.userInfo.fav || 0
-              }}</span>
+              <span class="font-orange">{{ userInfo.favs || 0 }}</span>
             </p>
-            <p>您当前为: <span class="font-orange">非VIP</span></p>
+            <p>
+              您当前为:
+              <span class="font-orange">
+                {{ userInfo.isVip == 1 ? "会员用户" : "普通用户" }}
+              </span>
+            </p>
           </td>
         </tr>
       </tbody>
@@ -56,7 +59,7 @@
         </tr>
         <tr>
           <td>
-            <template v-if="!$store.state.login.userInfo.isSign">
+            <template v-if="!userInfo.isSign">
               <div class="d-flex-center">
                 <button
                   type="button"
@@ -66,9 +69,9 @@
                   今日签到
                 </button>
                 <p>
-                  可获得 <span class="font-orange">{{ favs }}</span>
+                  可获得 <span class="font-orange">{{ favs }}</span
+                  >飞吻
                 </p>
-                飞吻
               </div>
             </template>
 
@@ -77,6 +80,10 @@
                 <button type="button" class="layui-btn layui-btn-disabled">
                   已签到
                 </button>
+                <p>
+                  已获得 <span class="font-orange">{{ favs }}</span
+                  >飞吻
+                </p>
               </div>
             </template>
           </td>
@@ -121,14 +128,14 @@
 </template>
 
 <script>
-import Sign from './Sign.vue'
-import ActiveList from './ActiveList.vue'
-import Layer from './../components/Layer.vue'
+import Sign from "./Sign.vue";
+import ActiveList from "./ActiveList.vue";
+import Layer from "./../components/Layer.vue";
 
-import { userSign } from '@/api/user'
+import { userSign, getUserInfo } from "@/api/user";
 
 export default {
-  name: 'user-center',
+  name: "user-center",
   components: {
     Sign,
     Layer,
@@ -138,121 +145,139 @@ export default {
     return {
       fastMenu: [
         {
-          icon: 'layui-icon-set',
-          name: '修改信息',
-          path: '/User',
+          icon: "layui-icon-set",
+          name: "修改信息",
+          path: "/User/BaseSetting",
         },
         {
-          icon: 'layui-icon-face-smile',
-          name: '修改头像',
-          path: '/User',
+          icon: "layui-icon-face-smile",
+          name: "修改头像",
+          path: "/User/BaseSetting",
         },
         {
-          icon: 'layui-icon-password',
-          name: '修改密码',
-          path: '/User',
+          icon: "layui-icon-password",
+          name: "修改密码",
+          path: "/User/BaseSetting",
         },
         {
-          icon: 'layui-icon-username',
-          name: '账号绑定',
-          path: '/User',
+          icon: "layui-icon-username",
+          name: "账号绑定",
+          path: "/User/BaseSetting",
         },
         {
-          icon: 'layui-icon-add-circle',
-          name: '发表新帖',
-          path: '/User',
+          icon: "layui-icon-add-circle",
+          name: "发表新帖",
+          path: "/User",
         },
         {
-          icon: 'layui-icon-share',
-          name: '查看分享',
-          path: '/User',
+          icon: "layui-icon-share",
+          name: "查看分享",
+          path: "/User",
         },
         {
-          icon: 'layui-icon-template',
-          name: '我的贴子',
-          path: '/User',
+          icon: "layui-icon-template",
+          name: "我的贴子",
+          path: "/User",
         },
         {
-          icon: 'layui-icon-rate-solid',
-          name: '我的收藏',
-          path: '/User',
+          icon: "layui-icon-rate-solid",
+          name: "我的收藏",
+          path: "/User",
         },
         {
-          icon: 'layui-icon-template-1',
-          name: '其他资料',
-          path: '/User',
+          icon: "layui-icon-template-1",
+          name: "其他资料",
+          path: "/User",
         },
         {
-          icon: 'layui-icon-login-wechat',
-          name: '关注公众号',
-          path: '/User',
+          icon: "layui-icon-login-wechat",
+          name: "关注公众号",
+          path: "/User",
         },
         {
-          icon: 'layui-icon-file',
-          name: '文档',
-          path: '/User',
+          icon: "layui-icon-file",
+          name: "文档",
+          path: "/User",
         },
         {
-          icon: 'layui-icon-app',
-          name: '后台管理',
-          path: '/User',
+          icon: "layui-icon-app",
+          name: "后台管理",
+          path: "/User",
         },
       ],
       showActiveList: false, //
-    }
+      timer: null,
+    };
   },
   computed: {
     favs() {
-      let fav = 0
-      let count = parseInt(this.count)
-      count += 1
+      let fav = 0;
+      let count = parseInt(this.count);
+      count += 1;
       if (count < 5) {
-        fav = 5
+        fav = 5;
       } else if (count >= 5 && count < 15) {
-        fav = 10
+        fav = 10;
       } else if (count >= 15 && count < 30) {
-        fav = 15
+        fav = 15;
       } else if (count >= 30 && count < 100) {
-        fav = 20
+        fav = 20;
       } else if (count >= 100 && count < 365) {
-        fav = 30
+        fav = 30;
       } else {
-        fav = 50
+        fav = 50;
       }
-      return fav
+      return fav;
     },
+
     count() {
-      if (this.$store.state.login.userInfo.count) {
-        return this.$store.state.login.userInfo.count
+      if (this.userInfo.count) {
+        return this.userInfo.count;
       } else {
-        return 0
+        return 0;
       }
+    },
+    userInfo() {
+      return this.$store.state.login.userInfo || {};
     },
   },
+  created() {
+    this.getInfo();
+    // setInterval(() => {
+    //   let Date = new Date();
+    //   console.log("Date", Date);
+    // }, 1000);
+  },
+
   methods: {
+    //
+    getInfo() {
+      getUserInfo().then((res) => {
+        this.$store.commit("login/SET_USER_INFO", res.data);
+      });
+    },
     todaySign() {
       userSign().then((res) => {
-        this.$alert(res.message)
+        this.$alert(res.message);
         if (res.code == 200) {
-          let userInfo = this.$store.state.login.userInfo
-          userInfo.isSign = true
-          this.$store.commit('login/SET_USER_INFO', userInfo)
+          let userInfo = this.$store.state.login.userInfo;
+          userInfo.isSign = true;
+          this.$store.commit("login/SET_USER_INFO", userInfo);
         }
-      })
+      });
     },
     showSign(name) {
-      this.$refs[name].isShow = true
+      this.$refs[name].isShow = true;
     },
     showLayer(name) {
-      this[name] = true
+      this[name] = true;
     },
   },
-}
+};
 </script>
 
  <style lang="scss" scoped>
 .user-center {
-
   background-color: #fff;
   padding: 20px;
 }

@@ -65,10 +65,13 @@ export default {
     },
   },
   watch: {
-    index(n, o) {
-      if (n != o) {
-        this.active = n;
-      }
+    index: {
+      immediate: true,
+      handler(n, o) {
+        if (n != o) {
+          this.active = n;
+        }
+      },
     },
   },
 };

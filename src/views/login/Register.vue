@@ -3,7 +3,7 @@
     <div class="module-container">
       <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
         <ul class="layui-tab-title">
-          <li @click="$router.push({ path: '/entrance/login' })">登录</li>
+          <li @click="$router.push({ path: '/login' })">登录</li>
           <li class="layui-this">注册</li>
         </ul>
       </div>
@@ -142,7 +142,7 @@
 
                 <router-link
                   class="forget-password"
-                  :to="{ path: '/entrance/forget' }"
+                  :to="{ path: '/forget' }"
                   >已有账号? 前往登录</router-link
                 >
               </div>
@@ -216,7 +216,7 @@ export default {
           .then((res) => {
             if (res.code == 200) {
               this.$confirm(res.message, () => {
-                this.$router.push({ path: "/entrance/login" });
+                this.$router.push({ path: "/login" });
               });
             } else {
               // this.$alert(res.message)

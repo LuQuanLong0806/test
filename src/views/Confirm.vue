@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Head></Head>
     <div class="confirm-content">
       <div class="font">
         您确定要将账号更改为：<span class="name"> {{ obj.name }}</span> 吗？
@@ -11,7 +10,7 @@
           class="layui-btn"
           :class="{ 'layui-btn layui-btn-disabled': isSend }"
         >
-          {{ isSend ? '更改中' : '确定更新' }}
+          {{ isSend ? "更改中" : "确定更新" }}
         </button>
         <router-link to="/" class="layui-btn layui-btn-primary"
           >返回首页</router-link
@@ -22,48 +21,45 @@
 </template>
 
 <script>
-import Head from '@/components/Head'
-import { updateUserName } from '@/api/user'
+import { updateUserName } from "@/api/user";
 
 export default {
-  components: {
-    Head,
-  },
+  components: {},
   data() {
     return {
       obj: {},
       isSend: false,
-    }
+    };
   },
   created() {
-    this.obj = this.getParams()
-    console.log(this.obj)
+    this.obj = this.getParams();
+    console.log(this.obj);
   },
   mounted() {},
   methods: {
     getParams() {
-      let obj = {}
+      let obj = {};
       decodeURIComponent(window.location.href)
-        .replace(/.*\?/, '')
-        .split('&')
-        .map((d) => d.split('='))
+        .replace(/.*\?/, "")
+        .split("&")
+        .map((d) => d.split("="))
         .map((d) => {
-          obj[d[0]] = d[1]
-        })
-      return obj
+          obj[d[0]] = d[1];
+        });
+      return obj;
     },
     updateName() {
       updateUserName(this.obj).then((res) => {
-        this.$pop(res.message)
+        this.$pop(res.message);
         if (res.code == 200) {
           //
         } else {
           //
         }
-      })
+      });
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>

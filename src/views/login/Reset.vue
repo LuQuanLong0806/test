@@ -126,10 +126,10 @@ export default {
               this.$confirm(
                 res.message,
                 () => {
-                  this.$router.push({ path: "/entrance/login" });
+                  this.$router.push({ path: "/login" });
                 },
                 () => {
-                  this.$router.push({ path: "/entrance/login" });
+                  this.$router.push({ path: "/login" });
                 }
               );
             } else {

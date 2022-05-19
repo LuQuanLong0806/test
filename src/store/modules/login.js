@@ -4,6 +4,7 @@ const login = {
     namespaced: true,
     state: {
         token: db.get('token'),
+        isSign: db.get('isSign'),
         userInfo: db.get('userInfo') ? JSON.parse(db.get('userInfo')) : {}
     },
     mutations: {
@@ -22,6 +23,10 @@ const login = {
         SET_USER_INFO(state, payload) {
             state.userInfo = payload
             db.set('userInfo', JSON.stringify(payload))
+        },
+        SET_isSign(state, payload) {
+            state.isSign = payload
+            db.set('isSign', payload)
         }
     },
     actions: {},

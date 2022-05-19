@@ -1,41 +1,35 @@
 <template>
-  <div>
-    <Head></Head>
-    <div class="layui-row" style="margin-top: 20px">
-      <div class="layui-col-md2">
-        <div class="user-menu">
-          <ul class="layui-nav layui-nav-tree site-demo-nav">
-            <li
-              class="user-menu-item layui-nav-item"
-              v-for="(item, index) in menuList"
-              :key="index"
+  <div class="layui-row" style="margin-top: 20px">
+    <div class="layui-col-md2">
+      <div class="user-menu">
+        <ul class="layui-nav layui-nav-tree site-demo-nav">
+          <li
+            class="user-menu-item layui-nav-item"
+            v-for="(item, index) in menuList"
+            :key="index"
+          >
+            <router-link
+              :to="{ path: item.link }"
+              :active-class="item.activeClass"
             >
-              <router-link
-                :to="{ path: item.link }"
-                :active-class="item.activeClass"
-              >
-                <i class="iconfont" :class="item.icon"></i>
-                {{ item.name }}
-              </router-link>
-            </li>
-          </ul>
-        </div>
+              <i class="iconfont" :class="item.icon"></i>
+              {{ item.name }}
+            </router-link>
+          </li>
+        </ul>
       </div>
-      <div class="layui-col-md10">
-        <div class="user-content">
-          <router-view></router-view>
-        </div>
+    </div>
+    <div class="layui-col-md10">
+      <div class="user-content">
+        <router-view></router-view>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Head from "@/components/Head";
-
 export default {
   components: {
-    Head,
   },
   data() {
     return {
