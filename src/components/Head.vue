@@ -101,6 +101,7 @@ export default {
     logOut() {
       this.$confirm("确定要退出登录吗?", () => {
         this.$store.commit("login/SET_TOKEN", "");
+        this.$store.commit("login/SET_USER_INFO", {});
         localStorage.clear();
         this.$router.push({ path: "/" });
       });
@@ -116,7 +117,7 @@ export default {
   width: 100%;
   height: 80px;
   background-color: #222;
-//   background-color: #0aa1ed;
+  //   background-color: #0aa1ed;
   justify-content: space-between;
   padding: 0 50px;
   box-sizing: border-box;

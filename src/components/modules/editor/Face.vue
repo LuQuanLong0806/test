@@ -1,7 +1,11 @@
 <template>
   <transition name="fade">
     <div
-      class="layui-layer layui-layer-tips layui-edit-face edit-content"
+      class="
+        layui-layer layui-layer-tips layui-edit-face
+        edit-content
+        transform-origin
+      "
       v-show="isShow"
     >
       <div class="layui-layer-content">
@@ -21,47 +25,48 @@
 </template>
 
 <script>
-import { faces } from '@/assets/js/face.js'
+import { faces } from "@/assets/js/face.js";
 export default {
-  name: 'Face',
+  name: "Face",
   props: {
     isShow: {
       type: Boolean,
       default: false,
     },
     ctrl: {
-      default: '',
+      default: "",
     },
   },
   data() {
     return {
       lists: faces,
-    }
+    };
   },
   mounted() {
     document
-      .querySelector('body')
-      .addEventListener('click', this.handleClickBody)
+      .querySelector("body")
+      .addEventListener("click", this.handleClickBody);
   },
   methods: {
     chooseFace(value) {
-      this.$emit('on-face', value)
+      this.$emit("on-face", value);
     },
     handleClickBody(e) {
       // 点击非icon组件之外的地方 隐藏内容
       if (!this.ctrl.contains(e.target)) {
-        this.$emit('on-close')
+        this.$emit("on-close");
       }
     },
   },
 
   beforeDestroy() {
     document
-      .querySelector('body')
-      .removeEventListener('click', this.handleClickBody)
+      .querySelector("body")
+      .removeEventListener("click", this.handleClickBody);
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
+
 </style>

@@ -66,7 +66,7 @@ export default {
     handleClickBody(e) {
       // 点击非icon组件之外的地方 隐藏内容
       if (
-        !this.ctrl.contains(e.target) &&
+        !this.ctrl.contains(e.target) || 
         !this.$refs.imgUpload.contains(e.target)
       ) {
         this.$emit('on-close')

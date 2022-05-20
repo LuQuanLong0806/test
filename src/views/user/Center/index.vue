@@ -230,6 +230,8 @@ export default {
       return fav;
     },
 
+    
+
     count() {
       if (this.userInfo.count) {
         return this.userInfo.count;
@@ -260,8 +262,11 @@ export default {
       userSign().then((res) => {
         this.$alert(res.message);
         if (res.code == 200) {
+          let data = res.data;
           let userInfo = this.$store.state.login.userInfo;
           userInfo.isSign = true;
+          userInfo.favs = data.favs;
+          userInfo.count = data.count;
           this.$store.commit("login/SET_USER_INFO", userInfo);
         }
       });
