@@ -62,7 +62,10 @@
                 </router-link>
               </li>
 
-              <li class="i-menu-item" @click="logOut">退出</li>
+              <li class="i-menu-item" @click="logOut">
+                <i class="layui-icon layui-icon-logout"></i>
+                退出
+              </li>
             </ul>
           </div>
         </span>
@@ -77,41 +80,41 @@ export default {
     return {
       userMenu: [
         {
-          link: "/index",
-          icon: "icon-home",
-          name: "我的主页",
+          link: '/index',
+          icon: 'icon-home',
+          name: '我的主页',
         },
         {
-          link: "/User/BaseSetting",
-          icon: "icon-setting",
-          name: "基本设置",
+          link: '/User/BaseSetting',
+          icon: 'icon-setting',
+          name: '基本设置',
         },
 
         {
-          link: "/User/MyMessage",
-          icon: "icon-message-fill",
-          name: "我的消息",
+          link: '/User/MyMessage',
+          icon: 'icon-message-fill',
+          name: '我的消息',
         },
       ],
-      defaultImg: require("@/assets/user/avatar.jpg"),
-    };
+      defaultImg: require('@/assets/user/avatar.jpg'),
+    }
   },
   mounted() {},
   methods: {
     logOut() {
-      this.$confirm("确定要退出登录吗?", () => {
-        this.$store.commit("login/SET_TOKEN", "");
-        this.$store.commit("login/SET_USER_INFO", {});
-        localStorage.clear();
-        this.$router.push({ path: "/" });
-      });
+      this.$confirm('确定要退出登录吗?', () => {
+        this.$store.commit('login/SET_TOKEN', '')
+        this.$store.commit('login/SET_USER_INFO', {})
+        localStorage.clear()
+        this.$router.push({ path: '/' })
+      })
     },
   },
-};
+}
 </script>
 
 <style lang='scss' scoped>
-@import "./../assets/custom/iconfont.css";
+@import './../assets/custom/iconfont.css';
 
 .head {
   width: 100%;
@@ -175,6 +178,9 @@ $c: #fff;
     line-height: 38px;
     text-align: center;
     cursor: pointer;
+    &:hover {
+      color: #009688;
+    }
   }
   li:last-child() {
   }

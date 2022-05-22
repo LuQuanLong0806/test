@@ -1,71 +1,199 @@
 <template>
   <div class="layui-form layui-form-pane p-relative">
     <div class="layui-form-item layui-form-text">
-      <label class="layui-form-label">
-        <span ref="face" class="icon-item" @click="faceStatus = true">
-          <i class="iconfont icon-biaoqing"></i>
-        </span>
-        <span ref="imgUpload" class="icon-item" @click="imgStatus = true">
-          <i class="iconfont icon-tupian"></i>
-        </span>
-        <span class="icon-item">
-          <i class="iconfont icon-lianjie"></i>
-        </span>
-
-        <span class="icon-item">
-          <i class="iconfont icon-quote"></i>
-        </span>
-        <span class="icon-item"> <i class="iconfont icon-hr"></i> </span
-        ><span class="icon-item">
-          <i class="iconfont icon-icon_yulan"></i>
+      <label class="layui-form-label" ref="iconContainer">
+        <span
+          v-for="(v, i) in iconList"
+          :key="i"
+          class="icon-item"
+          @click="choose(i)"
+        >
+          <i class="layui-icon" :class="v.icon"></i>
         </span>
       </label>
       <div class="layui-input-block">
         <textarea
+          ref="editArea"
           type="text"
           name="price_min"
           placeholder=""
           autocomplete="off"
           class="layui-input"
-          style="height: 200px"
+          style="min-height: 200px"
+          @focus="focusEvent()"
+          @blur="blurEvent()"
+          v-model="content"
         />
       </div>
     </div>
+    <!-- 编辑器容器 -->
+    <div ref="editContainer">
+      <Face
+        :isShow="currentModel === 0"
+        @on-face="addFace"
+        @on-close="currentModel = ''"
+      ></Face>
+      <ImgUpload
+        :isShow="currentModel === 1"
+        @on-close="currentModel = ''"
+        @on-submit="addImg"
+      ></ImgUpload>
 
-    <Face
-      :isShow="faceStatus"
-      @on-face="selectFace"
-      @on-close="faceStatus = false"
-      :ctrl="$refs.face"
-    ></Face>
-    <ImgUpload
-      :ctrl="$refs.imgUpload"
-      :isShow="imgStatus"
-      @on-close="imgStatus = false"
-    ></ImgUpload>
+      <Link
+        @on-submit="addLink"
+        :isShow="currentModel === 2"
+        @on-close="currentModel = ''"
+      ></Link>
+
+      <Quote
+        @on-submit="addLink"
+        :isShow="currentModel === 3"
+        @on-close="currentModel = ''"
+      ></Quote>
+
+      <Code
+        @on-submit="addCode"
+        :isShow="currentModel === 4"
+        @on-close="currentModel = ''"
+      ></Code>
+    </div>
   </div>
 </template>
 
 <script>
 import Face from './Face.vue'
 import ImgUpload from './ImgUpload.vue'
+import Link from './Link.vue'
+import Quote from './Quote.vue'
+import Code from './Code.vue'
+
 export default {
   name: 'editor',
   components: {
     Face,
     ImgUpload,
+    Link,
+    Quote,
+    Code,
   },
   data() {
     return {
-      faceStatus: false,
-      imgStatus: true,
+      currentModel: '',
+      iconList: [
+        { name: '', icon: 'layui-icon-face-smile-b' }, // 表情
+        { name: '', icon: 'layui-icon-picture' }, //图片
+        { name: '', icon: 'layui-icon-link' }, // 链接
+        { name: '', icon: 'iconfont icon-quote' }, // 引用
+        { name: '', icon: 'layui-icon-fonts-code' }, // 添代码
+        { name: '', icon: 'iconfont  icon-hr' }, // 添加hr
+        { name: '', icon: ' layui-icon-about' }, // 预览
+      ],
+      pos: '',
+      content: '',
     }
   },
+  mounted() {
+    document
+      .querySelector('body')
+      .addEventListener('click', this.handleClickBody)
+  },
   methods: {
+    // 添加表情
+    addFace(val) {
+      const insertContent = `face${val.key}`
+      this.insert(insertContent)
+    },
+    // 添加图片
+    addImg(val) {
+      const insertContent = `img[${val}]`
+      this.insert(insertContent)
+    },
+    // 添加链接
+    addLink(val) {
+      const insertContent = `a(${val})[${val}]`
+      this.insert(insertContent)
+    },
+    // 添加引用
+    addQuote(val) {
+      const insertContent = `\n[quote]\n${val}\n[/quote]`
+      this.insert(insertContent)
+    },
+    // 添加代码
+    addCode(val) {
+      const insertContent = `\n[pre]\n${val}\n[/pre]`
+      this.insert(insertContent)
+    },
+    // 添加hr
+    addHr() {
+      this.insert('\n[hr]', 5)
+    },
+    // 重新计算光标位置
+    focusEvent() {
+      this.getPos()
+    },
+    blurEvent() {
+      this.getPos()
+    },
+    // 计算光标的当前位置
+    getPos() {
+      let cursorPos = 0
+      let elem = this.$refs.editArea
+      if (document.selection) {
+        // 针对IE浏览器
+        let selectRange = document.selection.createRange()
+        selectRange.moveStart('character', elem.value.length)
+        cursorPos = selectRange.text.length
+      } else if (elem.selectionStart || elem.selectionStart == '0') {
+        cursorPos = elem.selectionStart
+      }
+
+      this.pos = cursorPos
+    },
+    // 插入事件
+    insert(val, len = null) {
+      if (typeof this.content === 'undefined') {
+        return
+      } else {
+        let tmp = this.content.split('')
+        tmp.splice(this.pos, 0, val)
+        this.content = tmp.join('')
+      }
+      if (!len) {
+        this.pos += val.length
+      } else {
+        this.pos += len
+      }
+      // 关闭
+      this.currentModel = ''
+    },
+
+    //
+    choose(i) {
+      this.currentModel = i
+    },
+
+    // 选中表情
     selectFace(value) {
       this.faceStatus = false
       console.log('value', value)
     },
+
+    // 关闭弹出框
+    handleClickBody(e) {
+      // 点击非icon组件之外的地方 隐藏内容
+      if (
+        !this.$refs.iconContainer.contains(e.target) &&
+        !this.$refs.editContainer.contains(e.target)
+      ) {
+        this.currentModel = ''
+      }
+    },
+  },
+
+  beforeDestroy() {
+    document
+      .querySelector('body')
+      .removeEventListener('click', this.handleClickBody)
   },
 }
 </script>
@@ -116,6 +244,7 @@ export default {
   position: absolute;
   top: 40px;
   left: 0;
+  z-index: 1000;
 }
 </style>
 <style lang="scss" scoped>
@@ -131,6 +260,10 @@ export default {
   width: 100%;
 }
 .icon-item {
+  cursor: pointer;
+  &:hover {
+    color: #009688;
+  }
   padding: 0 10px;
   .iconfont {
     cursor: pointer;

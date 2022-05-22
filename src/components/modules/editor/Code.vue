@@ -5,36 +5,23 @@
       v-show="isShow"
       ref="imgUpload"
     >
-      <label class="layui-layer-title">插入图片</label>
+      <label class="layui-layer-title">添加代码</label>
 
       <div class="layui-layer-content">
         <ul class="layui-form layui-form-pane">
           <li class="layui-form-item">
-            <label class="layui-form-label">URL</label>
-            <div class="layui-input-inline">
-              <input
+            <!-- <label class="layui-form-label">URL</label> -->
+
+            <div class="layui-input-inline" style="width: 300px">
+              <textarea
                 type="text"
                 id="fileInput"
                 class="layui-input"
-                placeholder="粘贴图片地址或者点击上传"
+                placeholder="请输入链接地址"
                 v-model="url"
+                style="min-height: 150px"
               />
             </div>
-            <label
-              for="uploadImg"
-              type="button"
-              class="layui-btn layui-btn-primary"
-            >
-              <i class="layui-icon layui-icon-upload-drag"></i>上传图片
-              <input
-                @change="upload"
-                type="file"
-                id="uploadImg"
-                name="file"
-                accept="image/png, image/gif, image/jpg, image/webp"
-                class="layui-upload-file"
-              />
-            </label>
           </li>
           <li class="layui-form-item" style="text-align: center">
             <label class="layui-btn" @click="submit">确定</label>
@@ -52,19 +39,14 @@
 </template>
 
 <script>
-import axios from '@/api/request'
-
 export default {
-  name: 'Face',
+  name: 'Code',
   props: {
     isShow: {
       type: Boolean,
       default: false,
     },
-    action: {
-      type: String,
-      default: '/content/upload',
-    },
+
     onSuccess: {
       type: Function,
       default() {
@@ -89,32 +71,10 @@ export default {
       this.url = ''
       this.$emit('on-close')
     },
-    upload(e) {
-      let file = e.target.files
-
-      let formData = new FormData()
-
-      if (file.length > 0) {
-        formData.append('file', file[0])
-      }
-      axios
-        .post(this.action, formData)
-        .then((res) => {
-          if (res.code == 200) {
-            this.url = res.data
-            this.onSuccess(res)
-          } else {
-            this.onError(res)
-          }
-        })
-        .catch((err) => {
-          this.onError(err)
-        })
-    },
 
     submit() {
       this.$emit('on-submit', this.url)
-      this.url = ''
+      this.close()
     },
   },
 }
