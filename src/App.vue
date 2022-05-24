@@ -3,7 +3,6 @@
     <!-- <LoginVuelidate></LoginVuelidate> -->
     <!-- <LoginVeeValidate></LoginVeeValidate> -->
     <Head></Head>
-sss
     <router-view></router-view>
   </div>
 </template>

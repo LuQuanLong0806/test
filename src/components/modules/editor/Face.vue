@@ -42,7 +42,6 @@ export default {
 
   methods: {
     chooseFace(value, key) {
-      console.log(value, key)
       let item = {
         value,
         key,

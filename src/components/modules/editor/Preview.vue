@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import { escapeHtml } from "@/util/escapeHtml";
 export default {
   name: "Code",
   props: {
@@ -36,29 +37,25 @@ export default {
       type: Boolean,
       default: false,
     },
-
-    onSuccess: {
-      type: Function,
-      default() {
-        return () => {};
-      },
-    },
-    onError: {
-      type: Function,
-      default() {
-        return () => {};
-      },
+    content: {
+      type: String,
+      default: "",
     },
   },
   data() {
-    return {
-      replaceContent: "",
-    };
+    return {};
   },
-
+  computed: {
+    replaceContent() {
+      if (this.content === "undefined" || this.content === "") {
+        return "";
+      } else {
+        return escapeHtml(this.content);
+      }
+    },
+  },
   methods: {
     close() {
-      this.url = "";
       this.$emit("on-close");
     },
   },

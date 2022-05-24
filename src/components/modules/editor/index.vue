@@ -56,126 +56,135 @@
         :isShow="currentModel === 4"
         @on-close="currentModel = ''"
       ></Code>
+
+      <Preview
+        :isShow="currentModel === 6"
+        @on-close="currentModel = ''"
+        :content="content"
+      ></Preview>
     </div>
   </div>
 </template>
 
 <script>
-import Face from './Face.vue'
-import ImgUpload from './ImgUpload.vue'
-import Link from './Link.vue'
-import Quote from './Quote.vue'
-import Code from './Code.vue'
+import Face from "./Face.vue";
+import ImgUpload from "./ImgUpload.vue";
+import Link from "./Link.vue";
+import Quote from "./Quote.vue";
+import Code from "./Code.vue";
+import Preview from "./Preview.vue";
 
 export default {
-  name: 'editor',
+  name: "editor",
   components: {
     Face,
     ImgUpload,
     Link,
     Quote,
     Code,
+    Preview,
   },
   data() {
     return {
-      currentModel: '',
+      currentModel: "",
       iconList: [
-        { name: '', icon: 'layui-icon-face-smile-b' }, // 表情
-        { name: '', icon: 'layui-icon-picture' }, //图片
-        { name: '', icon: 'layui-icon-link' }, // 链接
-        { name: '', icon: 'iconfont icon-quote' }, // 引用
-        { name: '', icon: 'layui-icon-fonts-code' }, // 添代码
-        { name: '', icon: 'iconfont  icon-hr' }, // 添加hr
-        { name: '', icon: ' layui-icon-about' }, // 预览
+        { name: "", icon: "layui-icon-face-smile-b" }, // 表情
+        { name: "", icon: "layui-icon-picture" }, //图片
+        { name: "", icon: "layui-icon-link" }, // 链接
+        { name: "", icon: "iconfont icon-quote" }, // 引用
+        { name: "", icon: "layui-icon-fonts-code" }, // 添代码
+        { name: "", icon: "iconfont  icon-hr" }, // 添加hr
+        { name: "", icon: " layui-icon-about" }, // 预览
       ],
-      pos: '',
-      content: '',
-    }
+      pos: "",
+      content: "",
+    };
   },
   mounted() {
     document
-      .querySelector('body')
-      .addEventListener('click', this.handleClickBody)
+      .querySelector("body")
+      .addEventListener("click", this.handleClickBody);
   },
   methods: {
+    preview() {},
     // 添加表情
     addFace(val) {
-      const insertContent = `face${val.key}`
-      this.insert(insertContent)
+      const insertContent = `face${val.key}`;
+      this.insert(insertContent);
     },
     // 添加图片
     addImg(val) {
-      const insertContent = `img[${val}]`
-      this.insert(insertContent)
+      const insertContent = `img[${val}]`;
+      this.insert(insertContent);
     },
     // 添加链接
     addLink(val) {
-      const insertContent = `a(${val})[${val}]`
-      this.insert(insertContent)
+      const insertContent = `a(${val})[${val}]`;
+      this.insert(insertContent);
     },
     // 添加引用
     addQuote(val) {
-      const insertContent = `\n[quote]\n${val}\n[/quote]`
-      this.insert(insertContent)
+      const insertContent = `\n[quote]\n${val}\n[/quote]`;
+      this.insert(insertContent);
     },
     // 添加代码
     addCode(val) {
-      const insertContent = `\n[pre]\n${val}\n[/pre]`
-      this.insert(insertContent)
+      const insertContent = `\n[pre]\n${val}\n[/pre]`;
+      this.insert(insertContent);
     },
     // 添加hr
     addHr() {
-      this.insert('\n[hr]', 5)
+      this.insert("\n[hr]", 5);
     },
     // 重新计算光标位置
     focusEvent() {
-      this.getPos()
+      this.getPos();
     },
     blurEvent() {
-      this.getPos()
+      this.getPos();
     },
     // 计算光标的当前位置
     getPos() {
-      let cursorPos = 0
-      let elem = this.$refs.editArea
+      let cursorPos = 0;
+      let elem = this.$refs.editArea;
       if (document.selection) {
         // 针对IE浏览器
-        let selectRange = document.selection.createRange()
-        selectRange.moveStart('character', elem.value.length)
-        cursorPos = selectRange.text.length
-      } else if (elem.selectionStart || elem.selectionStart == '0') {
-        cursorPos = elem.selectionStart
+        let selectRange = document.selection.createRange();
+        selectRange.moveStart("character", elem.value.length);
+        cursorPos = selectRange.text.length;
+      } else if (elem.selectionStart || elem.selectionStart == "0") {
+        cursorPos = elem.selectionStart;
       }
 
-      this.pos = cursorPos
+      this.pos = cursorPos;
     },
     // 插入事件
     insert(val, len = null) {
-      if (typeof this.content === 'undefined') {
-        return
+      if (typeof this.content === "undefined") {
+        return;
       } else {
-        let tmp = this.content.split('')
-        tmp.splice(this.pos, 0, val)
-        this.content = tmp.join('')
+        let tmp = this.content.split("");
+        tmp.splice(this.pos, 0, val);
+        this.content = tmp.join("");
       }
       if (!len) {
-        this.pos += val.length
+        this.pos += val.length;
       } else {
-        this.pos += len
+        this.pos += len;
       }
       // 关闭
-      this.currentModel = ''
+      this.currentModel = "";
     },
 
     //
     choose(i) {
-      this.currentModel = i
+      this.currentModel = i;
     },
 
     // 选中表情
     selectFace(value) {
-      this.faceStatus = false
-      console.log('value', value)
+      this.faceStatus = false;
+      console.log("value", value);
     },
 
     // 关闭弹出框
@@ -185,21 +194,21 @@ export default {
         !this.$refs.iconContainer.contains(e.target) &&
         !this.$refs.editContainer.contains(e.target)
       ) {
-        this.currentModel = ''
+        this.currentModel = "";
       }
     },
   },
 
   beforeDestroy() {
     document
-      .querySelector('body')
-      .removeEventListener('click', this.handleClickBody)
+      .querySelector("body")
+      .removeEventListener("click", this.handleClickBody);
   },
-}
+};
 </script>
 
 <style  lang="scss">
-@import './../../../assets/custom/iconfont.css';
+@import "./../../../assets/custom/iconfont.css";
 
 @keyframes bounceIn {
   0% {
