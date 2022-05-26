@@ -85,14 +85,12 @@ router.beforeEach((to, from, next) => {
         }
     }
 
-
-
     // if (to.matched.some(record => record.meta.requiresAuth)) {
     if (to.meta.requiresAuth) {
         if (token) {
             next()
         } else {
-            next('/login')
+            next('/login?redirect=' + to.fullPath)
         }
     } else {
         next()
