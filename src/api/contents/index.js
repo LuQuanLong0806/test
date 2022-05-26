@@ -9,3 +9,8 @@ export const getTips = (data) => {
 export const getList = (data) => {
     return axios.get('/public/list', data)
 }
+
+// 发表新帖
+export const addPost = (data) => {
+    return axios.post('/content/add', data)
+}

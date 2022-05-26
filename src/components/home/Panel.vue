@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="panel">
-      <div class="layui-container">
+      <div class="d-flex-between" style="padding: 0 50px">
         <ul>
           <router-link tag="li" to="/"><a href="">首页</a></router-link>
           <router-link
@@ -13,7 +13,7 @@
             ><a>{{ item.name }}</a></router-link
           >
 
-          <template v-if="$store.state.isLogin">
+          <template v-if="$store.state.login.token">
             <li class="layui-col-xs"><span class="line"></span></li>
             <li class="layui-col-xs">
               <router-link to="">我发表的贴</router-link>
@@ -23,10 +23,14 @@
             </li>
           </template>
         </ul>
-
-        <div class="right layui-col-xs">
+        <div
+          class="layui-col-xs d-flex-center"
+          style="width: 150px; text-align: right"
+        >
           <span class="layui-icon layui-icon-search"></span>
-          <button href="" class="layui-btn">发表新帖</button>
+          <router-link class="layui-btn" :to="{ path: '/add' }"
+            >发表新帖</router-link
+          >
         </div>
       </div>
     </div>
@@ -35,25 +39,30 @@
 
 <script>
 export default {
-  name: "panel",
+  name: 'panel',
   data() {
     return {
       lists: [
-        { path: "/ask", name: "提问" },
-        { path: "/", name: "分享" },
-        { path: "/", name: "讨论" },
-        { path: "/", name: "建议" },
-        { path: "/", name: "公告" },
-        { path: "/", name: "动态" },
+        { path: '/ask', name: '提问' },
+        { path: '/', name: '分享' },
+        { path: '/', name: '讨论' },
+        { path: '/', name: '建议' },
+        { path: '/', name: '公告' },
+        { path: '/', name: '动态' },
       ],
-    };
+    }
   },
-};
+}
 </script>
 
 <style  scoped>
+@media (min-width: 800px) {
+  .layui-container {
+    flex-wrap: wrap;
+  }
+}
 .layui-container {
-  width: 1780px;
+  /* width: 1780px; */
 }
 .panel {
   height: auto;

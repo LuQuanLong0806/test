@@ -72,8 +72,6 @@ let router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    console.log(to);
-    console.log(from);
     let token = db.get('token');
     if (token) {
         const payload = jwt.decode(token)

@@ -49,15 +49,15 @@
           <label class="layui-form-label">验证码</label>
           <div class="layui-input-inline">
             <ValidationProvider
-              name="capchat"
+              name="captcha"
               rules="required"
               v-slot="{ errors }"
-              ref="capchat"
+              ref="captcha"
             >
               <input
                 type="text"
-                name="capchat"
-                v-model="formData.capchat"
+                name="captcha"
+                v-model="formData.captcha"
                 placeholder="请输入验证码"
                 autocomplete="off"
                 class="layui-input"
@@ -107,7 +107,7 @@ export default {
       formData: {
         name: '',
         password: '',
-        capchat: '',
+        captcha: '',
       },
       errprMsg: [],
     }
@@ -152,7 +152,7 @@ export default {
               })
             } else {
               this.$alert(res.message)
-              this.$refs.capchat.setErrors([res.message])
+              this.$refs.captcha.setErrors([res.message])
             }
           })
           .catch((err) => {

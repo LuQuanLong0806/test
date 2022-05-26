@@ -48,13 +48,14 @@
                             lay-verify="required"
                             autocomplete="off"
                             class="layui-input"
+                            v-model="formData.title"
                           />
                           <!-- <input type="hidden" name="id" value="{{d.edit.id}}"> -->
                         </div>
                       </div>
                     </div>
 
-                    <Editor></Editor>
+                    <Editor ref="edit"></Editor>
 
                     <div class="layui-form-item">
                       <div class="layui-inline">
@@ -78,15 +79,15 @@
                       <label class="layui-form-label">验证码</label>
                       <div class="layui-input-inline">
                         <ValidationProvider
-                          name="capchat"
+                          name="captcha"
                           rules="required"
                           v-slot="{ errors }"
-                          ref="capchat"
+                          ref="captcha"
                         >
                           <input
                             type="text"
-                            name="capchat"
-                            v-model="formData.capchat"
+                            name="captcha"
+                            v-model="formData.captcha"
                             placeholder="请输入验证码"
                             autocomplete="off"
                             class="layui-input"
@@ -108,6 +109,7 @@
                         @click="validate().then(submit)"
                         class="layui-btn"
                         type="button"
+                        :class="{ 'layui-btn-disabled': isSubmit }"
                       >
                         立即发布
                       </button>
@@ -126,6 +128,9 @@
 <script>
 import captchaMixin from '@/mixin/captchaMixin'
 import Editor from '@/components/modules/editor'
+
+import { addPost } from '@/api/contents'
+
 export default {
   name: 'Add',
   components: { Editor },
@@ -133,12 +138,37 @@ export default {
     return {
       formData: {
         captcha: '',
+        fav: 15,
+        catalog: 'share',
       },
+
+      isSubmit: false,
     }
   },
   mixins: [captchaMixin],
   methods: {
-    submit() {},
+    submit() {
+      this.isSubmit = true
+      let params = {
+        ...this.formData,
+        sid: localStorage.getItem('sid'),
+      }
+
+      params.content = this.$refs.edit.content
+
+      addPost(params).then((res) => {
+        console.log(res)
+        if (res.code == 200) {
+          this.$pop(`发表成功!2秒后自动跳转到首页!`)
+          setTimeout(() => {
+            this.$router.push({ path: '/' })
+          }, 2000)
+        } else {
+          this.isSubmit = false
+          this.$pop(res.message)
+        }
+      })
+    },
   },
 }
 </script>

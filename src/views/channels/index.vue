@@ -1,7 +1,8 @@
 <template>
   <div class="layui-row">
     <div class="layui-col-md8 p-10">
-      <Ads></Ads>
+      <!-- <Ads></Ads> -->
+      <List></List>
       <HotList class="m-top-10"></HotList>
     </div>
     <div class="layui-col-md4 p-10">
@@ -16,23 +17,26 @@
 </template>
 
 <script>
-import HotList from "@/components/home/siderbar/HotList";
-import Ads from "@/components/home/siderbar/Ads";
-import Links from "@/components/home/siderbar/Links";
-import Sign from "@/components/home/siderbar/Sign";
-import Tips from "@/components/home/siderbar/Tips";
+import List from '@/components/home/contents/List.vue'
+
+import HotList from '@/components/home/siderbar/HotList'
+// import Ads from '@/components/home/siderbar/Ads'
+import Links from '@/components/home/siderbar/Links'
+import Sign from '@/components/home/siderbar/Sign'
+import Tips from '@/components/home/siderbar/Tips'
 export default {
   components: {
-    Ads,
+    // Ads,
     HotList,
     Sign,
     Tips,
     Links,
+    List,
   },
   data() {
-    return {};
+    return {}
   },
-};
+}
 </script>
 
 <style scoped>
@@ -45,5 +49,4 @@ export default {
 .p-10 {
   padding: 20px 10px;
 }
-
 </style>

@@ -105,15 +105,15 @@
               <label class="layui-form-label">验证码</label>
               <div class="layui-input-inline">
                 <ValidationProvider
-                  name="capchat"
+                  name="captcha"
                   rules="required"
                   v-slot="{ errors }"
-                  ref="capchat"
+                  ref="captcha"
                 >
                   <input
                     type="text"
-                    name="capchat"
-                    v-model="registerData.capchat"
+                    name="captcha"
+                    v-model="registerData.captcha"
                     placeholder="请输入验证码"
                     autocomplete="off"
                     class="layui-input"
@@ -140,9 +140,7 @@
                   点击注册
                 </button>
 
-                <router-link
-                  class="forget-password"
-                  :to="{ path: '/forget' }"
+                <router-link class="forget-password" :to="{ path: '/forget' }"
                   >已有账号? 前往登录</router-link
                 >
               </div>
@@ -155,81 +153,81 @@
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from "vee-validate";
+import { ValidationProvider, ValidationObserver } from 'vee-validate'
 
-import Login from "@/api/login";
+import Login from '@/api/login'
 
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from 'uuid'
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
     ValidationProvider,
     ValidationObserver,
   },
   data() {
     return {
-      svg: "",
+      svg: '',
       registerData: {
-        name: "",
-        nickname: "",
-        password: "",
-        surepassword: "",
-        capchat: "",
+        name: '',
+        nickname: '',
+        password: '',
+        surepassword: '',
+        captcha: '',
       },
 
       errprMsg: [],
       tab: 0,
-    };
+    }
   },
 
   created() {},
   mounted() {
-    let sid = "";
-    if (localStorage.getItem("sid")) {
-      sid = localStorage.getItem("sid");
+    let sid = ''
+    if (localStorage.getItem('sid')) {
+      sid = localStorage.getItem('sid')
     } else {
-      sid = uuidv4();
-      localStorage.setItem("sid", sid);
+      sid = uuidv4()
+      localStorage.setItem('sid', sid)
     }
-    this.$store.commit("SET_SID", sid);
-    console.log(sid);
-    this.getCaptcha();
+    this.$store.commit('SET_SID', sid)
+    console.log(sid)
+    this.getCaptcha()
   },
   methods: {
     // 校验两次密码是否一致
     checkPassword() {
-      this.$refs.register.setErrors({ surepassword: ["两次密码输入不一致"] });
+      this.$refs.register.setErrors({ surepassword: ['两次密码输入不一致'] })
     },
     getCaptcha() {
-      let sid = this.$store.state.sid;
+      let sid = this.$store.state.sid
       Login.getCaptcha({ sid }).then((res) => {
         if (res.code == 200) {
-          this.svg = res.data;
+          this.svg = res.data
         }
-      });
+      })
     },
     async regisetr() {
-      let valid = await this.$refs.register.validate();
+      let valid = await this.$refs.register.validate()
       if (valid) {
         Login.reg({ ...this.registerData, sid: this.$store.state.sid })
           .then((res) => {
             if (res.code == 200) {
               this.$confirm(res.message, () => {
-                this.$router.push({ path: "/login" });
-              });
+                this.$router.push({ path: '/login' })
+              })
             } else {
               // this.$alert(res.message)
-              this.$refs.register.setErrors(res.message);
+              this.$refs.register.setErrors(res.message)
             }
           })
           .catch((err) => {
-            console.log(err);
-          });
+            console.log(err)
+          })
       }
     },
   },
-};
+}
 </script>
 
 <style scoped>

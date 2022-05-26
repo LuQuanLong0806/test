@@ -14,7 +14,7 @@ const i18n = new VueI18n({
       fields: {
         "name": '用户名',
         'password': '密码',
-        'capchat': '验证码',
+        'captcha': '验证码',
         'surepassword': '确认密码',
         'nickname': '昵称'
       },
@@ -22,7 +22,7 @@ const i18n = new VueI18n({
         ...zh.messages,
         email: '请输入正确的{_field_}!',
         required: '{_field_}不能为空!',
-        
+
       }
     }
   }

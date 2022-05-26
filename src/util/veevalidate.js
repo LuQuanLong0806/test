@@ -20,7 +20,8 @@ localize('zh_CN', {
   names: {
     "name": '用户名',
     'password': '密码',
-    'capchat': '验证码',
+    'captcha': '验证码',
+    'captcha': '验证码',
     'oldpwd': '当前密码'
   },
   // key 和上面组件绑定的 name 对应  里面的内容 是对规则的校验
@@ -29,7 +30,9 @@ localize('zh_CN', {
       email: '请输入正确的{_field_}!',
       required: '{_field_}不能为空!'
     },
-
+    "captcha": {
+      required: '{_field_}不能为空!'
+    }
   }
 
 })
