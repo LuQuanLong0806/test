@@ -183,7 +183,7 @@ export default {
   margin-left: 20px;
 }
 .forget-password:hover {
-  color: #009688;
+  color: var(--theme-color);
 }
 .layui-form-mid {
 }

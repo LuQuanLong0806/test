@@ -271,7 +271,7 @@ export default {
 .icon-item {
   cursor: pointer;
   &:hover {
-    color: #009688;
+    color: var(--theme-color);
   }
   padding: 0 10px;
   .iconfont {

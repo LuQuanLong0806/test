@@ -109,7 +109,7 @@ export default {
   color: #333;
 }
 .success {
-  background-color: #009688;
+  background-color: var(--theme-color);
   color: #fff;
 }
 .space-around {

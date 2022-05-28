@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import List from '@/components/home/contents/List.vue'
+import List from '@/components/contents/List.vue'
 
 import HotList from '@/components/home/siderbar/HotList'
 // import Ads from '@/components/home/siderbar/Ads'

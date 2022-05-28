@@ -108,8 +108,6 @@ export default {
 }
 .lweb-container {
   width: 100%;
-  height: calc(100vh - 80px);
-  background-color: #fff;
   padding-top: 20px;
 }
 .forget-password {
@@ -117,7 +115,7 @@ export default {
   margin-left: 20px;
 }
 .forget-password:hover {
-  color: #009688;
+  color: var(--theme-color);
 }
 .layui-form-mid {
   display: inline-block;

@@ -98,6 +98,6 @@ ul li a {
   margin-right: 15px;
 }
 .layui-icon:hover {
-  color: #009688;
+  color: var(--theme-color);
 }
 </style>

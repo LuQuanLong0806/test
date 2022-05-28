@@ -316,7 +316,7 @@ export default {
     cursor: pointer;
   }
   &-desc {
-    color: #009688;
+    color: var(--theme-color);
   }
   &-line {
     width: 1px;
@@ -341,7 +341,7 @@ export default {
     font-size: 30px;
     color: #fff;
   }
-  background-color: #009688;
+  background-color: var(--theme-color);
   height: 52px;
   line-height: 52px;
 }
