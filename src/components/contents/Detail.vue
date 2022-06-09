@@ -283,12 +283,30 @@
 </template>
 
 <script>
+import { getDetail } from '@/api/contents'
+import { getComments } from '@/api/contents/comments'
+
 export default {
-  name: "detal",
+  name: 'detail',
   data() {
-    return {};
+    return {}
   },
-};
+  mounted() {
+    this.getDetail()
+  },
+
+  methods: {
+    getDetail() {
+      getDetail({ tid: this.$route.query.id }).then((res) => {
+        console.log('详情', res)
+      })
+
+      getComments().then((res) => {
+        console.log('评论', res)
+      })
+    },
+  },
+}
 </script>
 
 <style lang='scss' scoped>
@@ -296,6 +314,6 @@ export default {
   margin-right: 5px;
 }
 .layui-btn-xs {
-    margin-right: 5px;
+  margin-right: 5px;
 }
 </style>

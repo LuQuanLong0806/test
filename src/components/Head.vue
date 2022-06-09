@@ -119,8 +119,7 @@ export default {
 .head {
   width: 100%;
   height: 80px;
-  background-color: #222;
-    background-color: #0aa1ed;
+  background-color: var(--theme-head-color);
   justify-content: space-between;
   padding: 0 50px;
   box-sizing: border-box;

@@ -14,3 +14,8 @@ export const getList = (data) => {
 export const addPost = (data) => {
     return axios.post('/content/add', data)
 }
+
+// 获取评论详情
+export const getDetail = (data) => {
+    return axios.get('public/content/detail', data)
+}

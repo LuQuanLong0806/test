@@ -1,7 +1,14 @@
 :root {
-  --theme-color: #e1251b;
-  --theme-color: #009688; /* 主题颜色 */
+  /* 主题颜色 */
+  /* --theme-color: #e1251b; */
+  /* --theme-color: #009688;  */
+  --theme-color: #0aa1ed; 
+  /* 头部颜色 */
+  /* --theme-head-color: #222; */
+  --theme-head-color: #0aa1ed;
 }
+
+
 /* 初始化 */
 html,
 body,
