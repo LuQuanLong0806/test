@@ -86,7 +86,7 @@
               class="layui-elem-field layui-field-title"
               style="text-align: center"
             >
-              <legend>回帖</legend>
+              <legend>评论</legend>
             </fieldset>
 
             <ul class="jieda" v-if="commentsList.length > 0">
@@ -144,10 +144,25 @@
                     <i class="iconfont icon-svgmoban53"></i>
                     回复
                   </span>
-                  <div class="jieda-admin">
-                    <span type="edit">编辑</span>
-                    <span type="del">删除</span>
-                    <!-- <span class="jieda-accept" type="accept">采纳</span> -->
+                  <div
+                    class="jieda-admin"
+                    v-if="
+                      item.cuid && userInfo._id && item.cuid._id == userInfo._id
+                    "
+                  >
+                    <!-- 楼主才能有这些操作 -->
+                    <span type="edit" @click="editComment(item, index)"
+                      >编辑</span
+                    >
+                    <span type="del" @click="delComment(item, index)"
+                      >删除</span
+                    >
+                    <span
+                      class="jieda-accept"
+                      type="accept"
+                      @click="setBest(item, index)"
+                      >采纳</span
+                    >
                   </div>
                 </div>
               </li>
@@ -155,7 +170,11 @@
             <!-- 无数据时 -->
             <li v-else class="fly-none">消灭零回复</li>
 
-            <div class="layui-form layui-form-pane">
+            <div
+              class="layui-form layui-form-pane"
+              id="commentsInput"
+              ref="commentsInput"
+            >
               <form action="/jie/reply/" method="post">
                 <div class="layui-form-item layui-form-text">
                   <a name="comment"></a>
@@ -247,8 +266,8 @@
 
 <script>
 import { getDetail } from '@/api/contents'
-import { getComments, addComment } from '@/api/contents/comments'
-
+import { getComments, addComment, updateComment } from '@/api/contents/comments'
+import { scrollToElem } from '@/util/common'
 export default {
   name: 'detail',
   data() {
@@ -260,8 +279,16 @@ export default {
         content: '', // 评论内容
         code: '', // 验证码
       },
+      editInfo: {},
+      editIndex: '',
     }
   },
+  computed: {
+    userInfo() {
+      return this.$store.state.login.userInfo || {}
+    },
+  },
+
   created() {
     this.getDetail()
     this.getComments()
@@ -270,19 +297,24 @@ export default {
 
   methods: {
     submitComment() {
-      let params = {
-        ...this.commentObj,
-        tid: this.$route.query.id,
-      }
-      addComment(params).then((res) => {
-        if (res.code == 200) {
-          Object.keys(this.commentObj).forEach((d) => {
-            this.commentObj[d] = ''
-          })
-          this.getComments()
+      if (!this.editInfo._id) {
+        let params = {
+          ...this.commentObj,
+          tid: this.$route.query.id,
         }
-        this.$pop(res.message)
-      })
+        addComment(params).then((res) => {
+          if (res.code == 200) {
+            Object.keys(this.commentObj).forEach((d) => {
+              this.commentObj[d] = ''
+            })
+            this.getComments()
+          }
+          this.$pop(res.message)
+        })
+      } else {
+        // 编辑
+        this.updateComment()
+      }
     },
     getComments() {
       let params = {
@@ -308,6 +340,55 @@ export default {
           this.$alert(res.message)
         }
       })
+    },
+
+    // 编辑
+    editComment(item, index) {
+      console.log(item, index)
+      let elem = this.$refs.commentsInput
+      let container = document.querySelector('.roter-view')
+      // 滚动到输入框的位置
+      scrollToElem(elem, 800, -82, container)
+      // elem.focus() // 自动聚焦
+      this.editInfo = item
+      this.editIndex = index
+    },
+    // 更新评论
+    updateComment() {
+      // 发送编辑评论请求
+      let params = {
+        // content: '测试更改数据',
+        ...this.commentObj,
+        id: this.editInfo._id,
+        cuid: this.userInfo._id,
+      }
+      updateComment(params).then((res) => {
+        // 返回更新的数据内容
+        this.$pop(res.message)
+        // 前端更新
+        if (res.code == 200) {
+          this.$set(this.commentsList, this.editIndex, {
+            ...this.commentsList[this.editIndex],
+            content: params.content,
+          })
+
+          Object.keys(this.commentObj).forEach((d) => {
+            this.commentObj[d] = ''
+          })
+
+          this.editInfo = {}
+          this.editIndex = -1
+        }
+      })
+    },
+
+    // 删除
+    delComment(item, index) {
+      console.log(item, index)
+    },
+    // 采纳
+    setBest(item, index) {
+      console.log(item, index)
     },
   },
 }

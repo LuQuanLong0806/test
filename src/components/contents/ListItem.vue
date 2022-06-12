@@ -110,7 +110,6 @@ export default {
             break
         }
       })
-      console.log(this.lists)
       return this.lists
     },
   },

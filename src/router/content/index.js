@@ -21,7 +21,6 @@ const contentRoutes = [
         name: 'Detail',
         component: Detail,
         meta: {
-            ...meta
         },
 
     },
