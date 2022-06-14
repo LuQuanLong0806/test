@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
     <div class="layui-container">
       <div class="layui-row layui-col-space15">
         <div class="layui-col-md8 content detail">
@@ -129,38 +129,67 @@
                     }}</span>
                   </div>
 
-                  <i class="iconfont icon-caina" title="最佳答案"></i>
+                  <i
+                    class="iconfont"
+                    :class="{ 'icon-caina': item.isBest == 1 }"
+                    title="最佳答案"
+                  ></i>
                 </div>
                 <div class="detail-body jieda-body photos">
                   <p>{{ item.content }}</p>
                 </div>
                 <div class="jieda-reply">
                   <!--  zanok  点赞的class -->
-                  <span class="jieda-zan" type="zan">
-                    <i class="iconfont icon-zan"></i>
+                  <span
+                    class="jieda-zan"
+                    type="zan"
+                    @click="setHands(item, index)"
+                  >
+                    <i
+                      class="iconfont icon-zan"
+                      :class="{ zanok: item.handed == 1 }"
+                    ></i>
                     <em>{{ item.hands }}</em>
                   </span>
                   <span type="reply">
                     <i class="iconfont icon-svgmoban53"></i>
                     回复
                   </span>
-                  <div
-                    class="jieda-admin"
-                    v-if="
-                      item.cuid && userInfo._id && item.cuid._id == userInfo._id
-                    "
-                  >
-                    <!-- 楼主才能有这些操作 -->
-                    <span type="edit" @click="editComment(item, index)"
+                  <div class="jieda-admin">
+                    <!-- 本人才能编辑删除 -->
+                    <span
+                      type="edit"
+                      @click="editComment(item, index)"
+                      v-if="
+                        item.isBest != 1 &&
+                        detail.isEnd != 1 &&
+                        item.cuid &&
+                        userInfo._id &&
+                        item.cuid._id == userInfo._id
+                      "
                       >编辑</span
                     >
-                    <span type="del" @click="delComment(item, index)"
+                    <span
+                      type="del"
+                      v-if="
+                        item.isBest != 1 &&
+                        item.cuid &&
+                        userInfo._id &&
+                        item.cuid._id == userInfo._id
+                      "
+                      @click="delComment(item, index)"
                       >删除</span
                     >
+                    <!-- 楼主才可以采纳 -->
                     <span
                       class="jieda-accept"
                       type="accept"
                       @click="setBest(item, index)"
+                      v-if="
+                        item.isBest != 1 &&
+                        detail.uid &&
+                        detail.uid._id == userInfo._id
+                      "
                       >采纳</span
                     >
                   </div>
@@ -174,6 +203,7 @@
               class="layui-form layui-form-pane"
               id="commentsInput"
               ref="commentsInput"
+              v-if="detail.isEnd != 1"
             >
               <form action="/jie/reply/" method="post">
                 <div class="layui-form-item layui-form-text">
@@ -266,7 +296,13 @@
 
 <script>
 import { getDetail } from '@/api/contents'
-import { getComments, addComment, updateComment } from '@/api/contents/comments'
+import {
+  getComments,
+  addComment,
+  updateComment,
+  setBest,
+  setHands,
+} from '@/api/contents/comments'
 import { scrollToElem } from '@/util/common'
 export default {
   name: 'detail',
@@ -388,7 +424,33 @@ export default {
     },
     // 采纳
     setBest(item, index) {
-      console.log(item, index)
+      this.$confirm('确定设置为最佳答案吗?', () => {
+        setBest({
+          tid: this.$route.query.id,
+          cid: item._id,
+        }).then((res) => {
+          this.$pop(res.message)
+          if (res.code == 200) {
+            // 帖子状态要完结
+            this.detail.isEnd = 1
+            this.$set(this.commentsList, index, { ...item, isBest: 1 })
+          }
+        })
+      })
+    },
+    // 点赞
+
+    setHands(item, index) {
+      console.log('item', item, index)
+      setHands({ cid: item._id }).then((res) => {
+        console.log(res)
+        this.$pop(res.message)
+        if (res.code == 200) {
+          //
+          this.commentsList[index].hands += 1
+          this.commentsList[index].handed = 1
+        }
+      })
     },
   },
 }
@@ -408,7 +470,7 @@ export default {
   min-height: auto;
   padding: 30px 0;
 }
-.layui-container{
-    padding-top: 20px;
+.layui-container {
+  padding-top: 20px;
 }
 </style>
