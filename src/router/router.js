@@ -16,6 +16,7 @@ const Index = () => import('@/views/channels/index')
 const Ask = () => import('@/views/Template')
 const postNew = () => import('@/views/postNew')
 const Confirm = () => import('@/views/Confirm')
+const Detail = () => import(/*webpackChunkName: 'Detail'*/ '@/components/contents/Detail.vue');
 
 const routes = [
     {
@@ -42,6 +43,13 @@ const routes = [
                 name: 'ask',
                 component: Ask,
             },
+
+            {
+                path: 'detail',
+                name: 'Detail',
+                component: Detail,
+            },
+
 
         ]
     },

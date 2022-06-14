@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div >
     <div class="layui-container">
       <div class="layui-row layui-col-space15">
         <div class="layui-col-md8 content detail">
@@ -407,5 +407,8 @@ export default {
 .fly-none {
   min-height: auto;
   padding: 30px 0;
+}
+.layui-container{
+    padding-top: 20px;
 }
 </style>

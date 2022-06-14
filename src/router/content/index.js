@@ -4,7 +4,7 @@ const meta = {
 }
 
 const Add = () => import(/*webpackChunkName: 'Add'*/ '@/views/content/Add.vue');
-const Detail = () => import(/*webpackChunkName: 'Detail'*/ '@/components/contents/Detail.vue');
+// const Detail = () => import(/*webpackChunkName: 'Detail'*/ '@/components/contents/Detail.vue');
 
 const contentRoutes = [
     {
@@ -16,14 +16,13 @@ const contentRoutes = [
         },
 
     },
-    {
-        path: '/detail',
-        name: 'Detail',
-        component: Detail,
-        meta: {
-        },
-
-    },
+    // {
+    //     path: '/detail',
+    //     name: 'Detail',
+    //     component: Detail,
+    //     meta: {
+    //     },
+    // },
 
 ]
 
