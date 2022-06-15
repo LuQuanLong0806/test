@@ -55,7 +55,7 @@
               </a>
               <div class="fly-detail-user">
                 <a href="../user/home.html" class="fly-link">
-                  <cite>{{ detail.uid ? detail.uid.nickname : '' }}</cite>
+                  <cite>{{ detail.uid ? detail.uid.nickname : "" }}</cite>
 
                   <template
                     v-if="
@@ -102,7 +102,7 @@
                   </a>
                   <div class="fly-detail-user">
                     <a href="" class="fly-link">
-                      <cite>{{ item.cuid ? item.cuid.nickname : '' }}</cite>
+                      <cite>{{ item.cuid ? item.cuid.nickname : "" }}</cite>
 
                       <template v-if="item.cuid.isVip && item.cuid.isVip != 0">
                         <i
@@ -110,7 +110,7 @@
                           title="认证信息："
                         ></i>
                         <i class="layui-badge fly-badge-vip"
-                          >VIP{{ item.cuid ? item.cuid.isVip : '' }}</i
+                          >VIP{{ item.cuid ? item.cuid.isVip : "" }}</i
                         >
                       </template>
                     </a>
@@ -125,7 +125,7 @@
 
                   <div class="detail-hits">
                     <span>{{
-                      item.created | dateFormat('YYYY-MM-DD HH:mm:ss')
+                      item.created | dateFormat("YYYY-MM-DD HH:mm:ss")
                     }}</span>
                   </div>
 
@@ -151,7 +151,7 @@
                     ></i>
                     <em>{{ item.hands }}</em>
                   </span>
-                  <span type="reply">
+                  <span type="reply" @click="replay(item)">
                     <i class="iconfont icon-svgmoban53"></i>
                     回复
                   </span>
@@ -295,39 +295,39 @@
 </template>
 
 <script>
-import { getDetail } from '@/api/contents'
+import { getDetail } from "@/api/contents";
 import {
   getComments,
   addComment,
   updateComment,
   setBest,
   setHands,
-} from '@/api/contents/comments'
-import { scrollToElem } from '@/util/common'
+} from "@/api/contents/comments";
+import { scrollToElem } from "@/util/common";
 export default {
-  name: 'detail',
+  name: "detail",
   data() {
     return {
       detail: {},
       total: 0,
       commentsList: [],
       commentObj: {
-        content: '', // 评论内容
-        code: '', // 验证码
+        content: "", // 评论内容
+        code: "", // 验证码
       },
       editInfo: {},
-      editIndex: '',
-    }
+      editIndex: "",
+    };
   },
   computed: {
     userInfo() {
-      return this.$store.state.login.userInfo || {}
+      return this.$store.state.login.userInfo || {};
     },
   },
 
   created() {
-    this.getDetail()
-    this.getComments()
+    this.getDetail();
+    this.getComments();
   },
   mounted() {},
 
@@ -337,57 +337,56 @@ export default {
         let params = {
           ...this.commentObj,
           tid: this.$route.query.id,
-        }
+        };
         addComment(params).then((res) => {
           if (res.code == 200) {
             Object.keys(this.commentObj).forEach((d) => {
-              this.commentObj[d] = ''
-            })
-            this.getComments()
+              this.commentObj[d] = "";
+            });
+            this.getComments();
           }
-          this.$pop(res.message)
-        })
+          this.$pop(res.message);
+        });
       } else {
         // 编辑
-        this.updateComment()
+        this.updateComment();
       }
     },
     getComments() {
       let params = {
         tid: this.$route.query.id,
-        page: '',
-        limit: '',
-      }
+        page: "",
+        limit: "",
+      };
       getComments(params).then((res) => {
         if (res.code == 200) {
-          this.commentsList = res.data
-          this.total = res.total
+          this.commentsList = res.data;
+          this.total = res.total;
         } else {
-          this.$alert(res.message)
+          this.$alert(res.message);
         }
-      })
+      });
     },
 
     getDetail() {
       getDetail({ tid: this.$route.query.id }).then((res) => {
         if (res.code == 200) {
-          this.detail = res.data
+          this.detail = res.data;
         } else {
-          this.$alert(res.message)
+          this.$alert(res.message);
         }
-      })
+      });
     },
 
     // 编辑
     editComment(item, index) {
-      console.log(item, index)
-      let elem = this.$refs.commentsInput
-      let container = document.querySelector('.roter-view')
+      let elem = this.$refs.commentsInput;
+      let container = document.querySelector(".roter-view");
       // 滚动到输入框的位置
-      scrollToElem(elem, 800, -82, container)
+      scrollToElem(elem, 800, -82, container);
       // elem.focus() // 自动聚焦
-      this.editInfo = item
-      this.editIndex = index
+      this.editInfo = item;
+      this.editIndex = index;
     },
     // 更新评论
     updateComment() {
@@ -397,63 +396,73 @@ export default {
         ...this.commentObj,
         id: this.editInfo._id,
         cuid: this.userInfo._id,
-      }
+      };
       updateComment(params).then((res) => {
         // 返回更新的数据内容
-        this.$pop(res.message)
+        this.$pop(res.message);
         // 前端更新
         if (res.code == 200) {
           this.$set(this.commentsList, this.editIndex, {
             ...this.commentsList[this.editIndex],
             content: params.content,
-          })
+          });
 
           Object.keys(this.commentObj).forEach((d) => {
-            this.commentObj[d] = ''
-          })
+            this.commentObj[d] = "";
+          });
 
-          this.editInfo = {}
-          this.editIndex = -1
+          this.editInfo = {};
+          this.editIndex = -1;
         }
-      })
+      });
     },
 
     // 删除
     delComment(item, index) {
-      console.log(item, index)
+      console.log(item, index);
     },
     // 采纳
     setBest(item, index) {
-      this.$confirm('确定设置为最佳答案吗?', () => {
+      this.$confirm("确定设置为最佳答案吗?", () => {
         setBest({
           tid: this.$route.query.id,
           cid: item._id,
         }).then((res) => {
-          this.$pop(res.message)
+          this.$pop(res.message);
           if (res.code == 200) {
             // 帖子状态要完结
-            this.detail.isEnd = 1
-            this.$set(this.commentsList, index, { ...item, isBest: 1 })
+            this.detail.isEnd = 1;
+            this.$set(this.commentsList, index, { ...item, isBest: 1 });
           }
-        })
-      })
+        });
+      });
     },
     // 点赞
 
     setHands(item, index) {
-      console.log('item', item, index)
+      if (!this.$store.state.login.token) {
+        this.$pop("请先登录!");
+        return;
+      }
       setHands({ cid: item._id }).then((res) => {
-        console.log(res)
-        this.$pop(res.message)
+        this.$pop(res.message);
         if (res.code == 200) {
-          //
-          this.commentsList[index].hands += 1
-          this.commentsList[index].handed = 1
+          this.commentsList[index].hands += 1;
+          this.commentsList[index].handed = 1;
         }
-      })
+      });
+    },
+
+    //  回复
+    replay(item) {
+      console.log("回复", item);
+      if (!this.$store.state.login.token) {
+        this.$pop("请先登录!");
+        return;
+      }
     },
   },
-}
+};
 </script>
 
 <style lang='scss' scoped>
