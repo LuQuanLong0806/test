@@ -76,6 +76,17 @@
                 >
               </div>
             </div>
+
+            <div class="collection-container">
+              <span style="color: #c00">
+                <i class="layui-icon layui-icon-star-fill"></i>
+                已收藏
+              </span>
+              <span>
+                <i class="layui-icon layui-icon-star"></i>
+                收藏
+              </span>
+            </div>
             <div class="detail-body photos">
               {{ detail.content }}
             </div>
@@ -481,5 +492,12 @@ export default {
 }
 .layui-container {
   padding-top: 20px;
+}
+.layui-icon-star-fill {
+  color: #c00;
+}
+.collection-container {
+  text-align: right;
+  padding: 10px 0 0;
 }
 </style>

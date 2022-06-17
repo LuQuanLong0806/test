@@ -126,51 +126,51 @@
 </template>
 
 <script>
-import captchaMixin from '@/mixin/captchaMixin'
-import Editor from '@/components/modules/editor'
+import captchaMixin from "@/mixin/captchaMixin";
+import Editor from "@/components/modules/editor";
 
-import { addPost } from '@/api/contents'
+import { addPost } from "@/api/contents";
 
 export default {
-  name: 'Add',
+  name: "Add",
   components: { Editor },
   data() {
     return {
       formData: {
-        captcha: '',
+        captcha: "",
         fav: 15,
-        catalog: 'share',
+        catalog: "share",
       },
 
       isSubmit: false,
-    }
+    };
   },
   mixins: [captchaMixin],
   methods: {
     submit() {
-      this.isSubmit = true
+      this.isSubmit = true;
       let params = {
         ...this.formData,
-        sid: localStorage.getItem('sid'),
-      }
+        sid: localStorage.getItem("sid"),
+      };
 
-      params.content = this.$refs.edit.content
+      params.content = this.$refs.edit.content;
 
       addPost(params).then((res) => {
-        console.log(res)
+        console.log(res);
         if (res.code == 200) {
-          this.$pop(`发表成功!2秒后自动跳转到首页!`)
+          this.$pop(`发表成功!`);
           setTimeout(() => {
-            this.$router.push({ path: '/' })
-          }, 2000)
+            this.$router.push({ path: "/detail", query: { id: res.data._id } });
+          }, 1000);
         } else {
-          this.isSubmit = false
-          this.$pop(res.message)
+          this.isSubmit = false;
+          this.$pop(res.message);
         }
-      })
+      });
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>

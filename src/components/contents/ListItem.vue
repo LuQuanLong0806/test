@@ -12,7 +12,7 @@
         <h2>
           <!-- 徽章 -->
           <a class="layui-badge">{{ item.catalog }}</a>
-          <!-- 详情 -->
+          <!-- 标题 -->
           <router-link :to="{ path: '/detail', query: { id: item._id } }">{{
             item.title
           }}</router-link>

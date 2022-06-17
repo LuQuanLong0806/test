@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="sticky">
     <div class="panel">
       <div class="d-flex-between" style="padding: 0 50px">
         <ul>
@@ -39,20 +39,20 @@
 
 <script>
 export default {
-  name: 'panel',
+  name: "panel",
   data() {
     return {
       lists: [
-        { path: '/ask', name: '提问' },
-        { path: '/', name: '分享' },
-        { path: '/', name: '讨论' },
-        { path: '/', name: '建议' },
-        { path: '/', name: '公告' },
-        { path: '/', name: '动态' },
+        { path: "/ask", name: "提问" },
+        { path: "/", name: "分享" },
+        { path: "/", name: "讨论" },
+        { path: "/", name: "建议" },
+        { path: "/", name: "公告" },
+        { path: "/", name: "动态" },
       ],
-    }
+    };
   },
-}
+};
 </script>
 
 <style  scoped>
@@ -63,6 +63,12 @@ export default {
 }
 .layui-container {
   /* width: 1780px; */
+}
+.sticky {
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0px;
+  z-index: 1;
 }
 .panel {
   height: auto;
