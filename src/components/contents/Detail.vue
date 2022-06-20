@@ -78,11 +78,15 @@
             </div>
 
             <div class="collection-container">
-              <span style="color: #c00">
+              <span
+                style="color: #c00"
+                v-if="detail.isCollect == 1"
+                @click="cancleCollect"
+              >
                 <i class="layui-icon layui-icon-star-fill"></i>
                 已收藏
               </span>
-              <span>
+              <span @click="collect" v-else>
                 <i class="layui-icon layui-icon-star"></i>
                 收藏
               </span>
@@ -306,7 +310,7 @@
 </template>
 
 <script>
-import { getDetail } from "@/api/contents";
+import { getDetail, collect } from "@/api/contents";
 import {
   getComments,
   addComment,
@@ -472,6 +476,26 @@ export default {
         return;
       }
     },
+
+    // 收藏
+
+    collect() {
+      if (!this.$store.state.login.token) {
+        this.$pop("请先登录!");
+        return;
+      }
+      collect({ tid: this.$route.query.id, uid: this.userInfo._id }).then(
+        (res) => {
+          this.$pop(res.message);
+        }
+      );
+    },
+
+    cancleCollect() {
+      this.$confirm("是否取消收藏?", () => {
+        this.$pop("是的!");
+      });
+    },
   },
 };
 </script>
@@ -499,5 +523,8 @@ export default {
 .collection-container {
   text-align: right;
   padding: 10px 0 0;
+  span {
+    cursor: pointer;
+  }
 }
 </style>

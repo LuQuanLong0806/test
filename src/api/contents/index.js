@@ -19,3 +19,6 @@ export const addPost = (data) => {
 export const getDetail = (data) => {
     return axios.get('public/content/detail', data)
 }
+
+// 收藏
+export const collect = data => axios.post('/content/collect', data)

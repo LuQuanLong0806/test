@@ -9,3 +9,4 @@ export const updateComment = data => axios.post('/comments/update', data)
 export const setBest = data => axios.post('/comments/accept', data)
 // 点赞
 export const setHands = data => axios.post('/comments/hands', data)
+
