@@ -48,7 +48,7 @@ export default {
       status: '',
       tag: '',
       sort: 'created',
-      page: 0,
+      page: 1,
       limit: 20,
       catalog: '',
       isEnd: false,

@@ -81,12 +81,12 @@
               <span
                 style="color: #c00"
                 v-if="detail.isCollect == 1"
-                @click="cancleCollect"
+                @click="collect(0)"
               >
                 <i class="layui-icon layui-icon-star-fill"></i>
                 已收藏
               </span>
-              <span @click="collect" v-else>
+              <span @click="collect(1)" v-else>
                 <i class="layui-icon layui-icon-star"></i>
                 收藏
               </span>
@@ -479,22 +479,37 @@ export default {
 
     // 收藏
 
-    collect() {
+    collect(i) {
       if (!this.$store.state.login.token) {
-        this.$pop("请先登录!");
+        this.$pop("请先登录!", "shake");
         return;
       }
-      collect({ tid: this.$route.query.id, uid: this.userInfo._id }).then(
-        (res) => {
+      let params = {
+        tid: this.$route.query.id,
+        uid: this.userInfo._id,
+        title: this.detail.title,
+      };
+      if (i == 1) {
+        params.isCollect = 1;
+        // 收藏
+        collect(params).then((res) => {
           this.$pop(res.message);
-        }
-      );
-    },
-
-    cancleCollect() {
-      this.$confirm("是否取消收藏?", () => {
-        this.$pop("是的!");
-      });
+          if (res.code == 200) {
+            this.$set(this.detail, "isCollect", 1);
+          }
+        });
+      } else {
+        params.isCollect = 0;
+        // 取消收藏
+        this.$confirm("是否取消收藏?", () => {
+          collect(params).then((res) => {
+            this.$pop(res.message);
+            if (res.code == 200) {
+              this.$set(this.detail, "isCollect", 0);
+            }
+          });
+        });
+      }
     },
   },
 };

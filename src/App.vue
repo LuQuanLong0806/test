@@ -33,15 +33,22 @@ export default {
 <style  lang="scss">
 @import "./assets/css/global.css";
 @import "./assets/css/layui-layer/layer.css";
-
+// layui 样式属性
 .layui-btn {
   background-color: var(--theme-color);
 }
 
 .layui-this {
-  color: var(--theme-color) !important;
+  color: var(--theme-color);
 }
 
+.layui-nav-tree .layui-this {
+  background-color: var(--theme-color);
+  color: #fff;
+}
+.iconfont {
+  font-family: "layui-icon-fly" !important;
+}
 html body {
   margin: 0;
 }

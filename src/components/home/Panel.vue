@@ -16,10 +16,14 @@
           <template v-if="$store.state.login.token">
             <li class="layui-col-xs"><span class="line"></span></li>
             <li class="layui-col-xs">
-              <router-link to="">我发表的贴</router-link>
+              <router-link :to="{ path: '/User/MyPosts' }"
+                >我发表的贴</router-link
+              >
             </li>
             <li class="layui-col-xs">
-              <router-link to="">我收藏的贴</router-link>
+              <router-link :to="{ path: '/User/MyPosts', query: { tab: 1 } }"
+                >我收藏的贴</router-link
+              >
             </li>
           </template>
         </ul>

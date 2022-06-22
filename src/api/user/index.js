@@ -32,3 +32,7 @@ export const changePassword = (data) => {
 export const getUserInfo = (data) => {
     return axios.post('/user/info', data)
 }
+// 用户收藏的贴
+export const getCollectPosts = (data) => {
+    return axios.get('/user/collect/posts', data)
+}

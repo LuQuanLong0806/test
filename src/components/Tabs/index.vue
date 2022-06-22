@@ -60,8 +60,10 @@ export default {
   },
   methods: {
     toggleTab(item, i) {
+      if (this.active != i) {
+        this.onChange(item, i);
+      }
       this.active = i;
-      this.onChange(item, i);
     },
   },
   watch: {
