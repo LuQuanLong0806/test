@@ -1,7 +1,14 @@
 <template>
   <div class="head d-flex">
     <div class="">
-      <img src="" alt="" />
+      <router-link :to="{ path: '/' }">
+        <img
+          src="https://img0.baidu.com/it/u=1149498394,1442276907&fm=253&fmt=auto&app=120&f=JPEG?w=1000&h=500"
+          alt=""
+          width="150px"
+          height="50px"
+        />
+      </router-link>
     </div>
 
     <div class="d-flex">
@@ -37,9 +44,11 @@
       <!-- 登录 -->
       <div class="d-flex user" v-else>
         <span class="user-font">
-          <router-link class="user-font" :to="{ path: '/User' }">{{
-            $store.state.login.userInfo.nickname
-          }}</router-link>
+          <router-link class="user-font" :to="{ path: '/User' }"
+            >{{ $store.state.login.userInfo.nickname }}
+          </router-link>
+          <!-- VIP -->
+          <i class="iconfont icon-renzheng layui-hide-xs"></i>
         </span>
         <span class="p-relative user-hover" style="width: 36px; height: 36px">
           <router-link :to="{ path: '/User' }">
@@ -80,41 +89,41 @@ export default {
     return {
       userMenu: [
         {
-          link: '/index',
-          icon: 'icon-home',
-          name: '我的主页',
+          link: "/User/MyHomePage",
+          icon: "icon-home",
+          name: "我的主页",
         },
         {
-          link: '/User/BaseSetting',
-          icon: 'icon-setting',
-          name: '基本设置',
+          link: "/User/BaseSetting",
+          icon: "icon-setting",
+          name: "基本设置",
         },
 
         {
-          link: '/User/MyMessage',
-          icon: 'icon-message-fill',
-          name: '我的消息',
+          link: "/User/MyMessage",
+          icon: "icon-message-fill",
+          name: "我的消息",
         },
       ],
-      defaultImg: require('@/assets/user/avatar.jpg'),
-    }
+      defaultImg: require("@/assets/user/avatar.jpg"),
+    };
   },
   mounted() {},
   methods: {
     logOut() {
-      this.$confirm('确定要退出登录吗?', () => {
-        this.$store.commit('login/SET_TOKEN', '')
-        this.$store.commit('login/SET_USER_INFO', {})
-        localStorage.clear()
-        this.$router.push({ path: '/' })
-      })
+      this.$confirm("确定要退出登录吗?", () => {
+        this.$store.commit("login/SET_TOKEN", "");
+        this.$store.commit("login/SET_USER_INFO", {});
+        localStorage.clear();
+        this.$router.push({ path: "/" });
+      });
     },
   },
-}
+};
 </script>
 
 <style lang='scss' scoped>
-@import './../assets/custom/iconfont.css';
+@import "./../assets/custom/iconfont.css";
 
 .head {
   width: 100%;
@@ -158,6 +167,9 @@ $c: #fff;
 }
 
 .i-menu {
+  a {
+    color: inherit;
+  }
   display: none;
   position: absolute;
   top: 36px;
@@ -179,6 +191,7 @@ $c: #fff;
     cursor: pointer;
     &:hover {
       color: var(--theme-color);
+      background-color: #d9ecff;
     }
   }
   li:last-child() {

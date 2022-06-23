@@ -80,15 +80,19 @@ export default {
         page: 1,
         limit: 10,
       },
-      current: 1,
     };
   },
+  computed: {
+    current() {
+      return this.$route.query.tab ? Number(this.$route.query.tab) : 0;
+    },
+  },
   created() {
-    this.current = this.$route.query.tab ? this.$route.query.tab : 0;
+    // this.current = this.$route.query.tab ? this.$route.query.tab : 0;
     if (this.current == 1) {
       this.getCollectPosts();
     } else {
-        // 我发表的
+      // 我发表的
     }
   },
   methods: {

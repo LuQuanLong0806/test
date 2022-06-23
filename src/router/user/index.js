@@ -11,6 +11,7 @@ const BaseSetting = () => import(/*webpackChunkName: 'BaseSetting'*/ '@/views/us
 const MyPosts = () => import(/*webpackChunkName: 'MyPosts'*/ '@/views/user/MyPosts');
 const MyMessage = () => import(/*webpackChunkName: 'MyMessage'*/ '@/views/user/MyMessage');
 const Others = () => import(/*webpackChunkName: 'Others'*/ '@/views/user/Others');
+const MyHomePage = () => import(/*webpackChunkName: 'MyHomePage'*/ '@/views/user/MyHomePage');
 
 
 const userRoutes = [
@@ -23,6 +24,15 @@ const userRoutes = [
             ...meta
         },
         children: [
+
+            {
+                path: 'MyHomePage',
+                name: 'MyHomePage',
+                component: MyHomePage,
+                meta: {
+                    ...meta
+                },
+            },
             {
                 path: 'Center',
                 name: 'Center',
