@@ -167,21 +167,23 @@ $c: #fff;
 }
 
 .i-menu {
-  a {
-    color: inherit;
-  }
   display: none;
   position: absolute;
   top: 36px;
   width: 120px;
   right: -35px;
   z-index: 100;
-  padding-top: 10px;
+  a {
+    color: inherit;
+  }
+
   &-container {
     background-color: #fff;
     border-radius: 10px;
-    padding-top: 10px;
+    padding: 10px 0;
+    // padding-top: 10px;
     box-shadow: 0 0 6px 2px rgba(204, 204, 204, 0.3);
+    overflow: hidden;
   }
 
   &-item {

@@ -167,7 +167,7 @@ export default {
         {
           icon: "layui-icon-add-circle",
           name: "发表新帖",
-          path: "/User",
+          path: "/add",
         },
         {
           icon: "layui-icon-share",
@@ -177,12 +177,12 @@ export default {
         {
           icon: "layui-icon-template",
           name: "我的贴子",
-          path: "/User",
+          path: "/User/MyPosts",
         },
         {
           icon: "layui-icon-rate-solid",
           name: "我的收藏",
-          path: "/User",
+          path: "/User/MyPosts?tab=1",
         },
         {
           icon: "layui-icon-template-1",
