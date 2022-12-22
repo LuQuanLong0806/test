@@ -76,7 +76,8 @@ const routes = [
 
 let router = new VueRouter({
     linkEexatActiveClass: 'layui-this', // 激活的class
-    routes
+    routes,
+    mode: 'hash'
 })
 
 router.beforeEach((to, from, next) => {

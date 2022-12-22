@@ -1,6 +1,6 @@
 <template>
   <div class="lweb-container">
-    <div class="module-container">
+    <div class="module-container" v-drag>
       <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
         <ul class="layui-tab-title">
           <li class="layui-this">登录</li>
@@ -106,96 +106,125 @@
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from 'vee-validate'
-import Login from '@/api/login'
-import { getUserInfo } from '@/api/user'
-import { v4 as uuidv4 } from 'uuid'
+import { ValidationProvider, ValidationObserver } from "vee-validate";
+import Login from "@/api/login";
+import { getUserInfo } from "@/api/user";
+import { v4 as uuidv4 } from "uuid";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     ValidationProvider,
     ValidationObserver,
   },
+  directives: {
+    drag: {
+      inserted(dom, binding, that) {
+        console.log("dom", dom, binding, that);
+        dom.onmousedown = (e) => {
+          let x1 = e.pageX;
+          let y1 = e.pageY;
+          console.log("onmousedown", e);
+          dom.onmousemove = (e) => {
+            let x2 = e.x;
+            let y2 = e.y;
+            // 获取移动距离
+            let x = x2 - x1;
+            let y = y2 - y1;
+            console.log("onmousemove", e);
+            // that.context.imgX = x;
+            // that.context.imgY = y;
+            // console.log(  that, that.context.imgX ,that.context.imgY);
+            dom.style.transform =
+              "translate(" + x + "px" + "," + y + "px" + ")";
+          };
+        };
+        dom.onmouseup = (e) => {
+          console.log("onmouseup", e);
+          dom.onmousemove = null;
+        };
+      },
+    },
+  },
   data() {
     return {
-      svg: '',
+      svg: "",
       formData: {
-        name: '',
-        password: '',
-        captcha: '',
+        name: "",
+        password: "",
+        captcha: "",
       },
       registerData: {
-        name: '',
-        nickname: '',
-        password: '',
-        surepassword: '',
-        captcha: '',
+        name: "",
+        nickname: "",
+        password: "",
+        surepassword: "",
+        captcha: "",
       },
 
       errprMsg: [],
       tab: 0,
-    }
+    };
   },
 
   created() {},
   mounted() {
-    let sid = ''
-    if (localStorage.getItem('sid')) {
-      sid = localStorage.getItem('sid')
+    let sid = "";
+    if (localStorage.getItem("sid")) {
+      sid = localStorage.getItem("sid");
     } else {
-      sid = uuidv4()
-      localStorage.setItem('sid', sid)
+      sid = uuidv4();
+      localStorage.setItem("sid", sid);
     }
-    this.$store.commit('SET_SID', sid)
-    console.log(sid)
-    this.getCaptcha()
+    this.$store.commit("SET_SID", sid);
+    console.log(sid);
+    this.getCaptcha();
   },
   methods: {
     // 校验两次密码是否一致
     checkPassword() {
-      console.log('请确认密码')
-      console.log(this.$refs.surepassword)
-      this.$refs.surepassword.setErrors(['两次密码输入不一致'])
+      console.log("请确认密码");
+      console.log(this.$refs.surepassword);
+      this.$refs.surepassword.setErrors(["两次密码输入不一致"]);
     },
     setName(value) {
-      this.formData.name = value
+      this.formData.name = value;
     },
     getCaptcha() {
-      let sid = this.$store.state.sid
+      let sid = this.$store.state.sid;
       Login.getCaptcha({ sid }).then((res) => {
         if (res.code == 200) {
-          this.svg = res.data
+          this.svg = res.data;
         }
-      })
+      });
     },
     async submit() {
-      let valid = await this.$refs.ob.validate()
+      let valid = await this.$refs.ob.validate();
       if (valid) {
         Login.login({ ...this.formData, sid: this.$store.state.sid })
           .then((res) => {
             if (res.code == 200) {
-              let data = res.data
-              this.$store.commit('login/SET_TOKEN', data.token)
+              let data = res.data;
+              this.$store.commit("login/SET_TOKEN", data.token);
               // 获取用户信息
               getUserInfo().then((res) => {
-                this.$store.commit('login/SET_USER_INFO', res.data)
-                let path = this.$route.query.redirect || '/index'
-                this.$router.push({ path: path })
-              })
+                this.$store.commit("login/SET_USER_INFO", res.data);
+                let path = this.$route.query.redirect || "/index";
+                this.$router.push({ path: path });
+              });
             } else {
-              this.$pop(res.message, 'shake')
-              this.$refs.captcha.setErrors([res.message])
-              this.$store.commit('login/SET_IS_LOGIN', false)
+              this.$pop(res.message, "shake");
+              this.$refs.captcha.setErrors([res.message]);
+              this.$store.commit("login/SET_IS_LOGIN", false);
             }
           })
           .catch((err) => {
-            console.log(err)
-          })
+            console.log(err);
+          });
       }
     },
   },
-}
+};
 </script>
 
 <style scoped>
