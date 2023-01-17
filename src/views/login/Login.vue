@@ -119,31 +119,44 @@ export default {
   },
   directives: {
     drag: {
-      inserted(dom, binding, that) {
-        console.log("dom", dom, binding, that);
-        dom.onmousedown = (e) => {
-          let x1 = e.pageX;
-          let y1 = e.pageY;
-          console.log("onmousedown", e);
-          dom.onmousemove = (e) => {
-            let x2 = e.x;
-            let y2 = e.y;
-            // 获取移动距离
-            let x = x2 - x1;
-            let y = y2 - y1;
-            console.log("onmousemove", e);
-            // that.context.imgX = x;
-            // that.context.imgY = y;
-            // console.log(  that, that.context.imgX ,that.context.imgY);
-            dom.style.transform =
-              "translate(" + x + "px" + "," + y + "px" + ")";
-          };
+    inserted: function (el, binding, vnode) {
+        console.log("el", el, binding, vnode);
+        // 初始化
+        vnode.context.__imgX = 0;
+        vnode.context.__imgY = 0;
+        vnode.context.__imgXY = {
+            x: 0,
+            y: 0
         };
-        dom.onmouseup = (e) => {
-          console.log("onmouseup", e);
-          dom.onmousemove = null;
+        let o = vnode.context.__imgXY;
+        let c = vnode.context;
+        el.onmousedown = (e) => {
+            // e.stopPropagation();
+            e.preventDefault();
+            o.x = e.x;
+            o.y = e.y;
+            el.onmousemove = (e) => {
+                let x2 = e.x;
+                let y2 = e.y;
+                // 获取移动距离
+                let x = x2 - o.x; // +-
+                let y = y2 - o.y;
+
+                c.__imgX += x;
+                c.__imgY += y;
+
+                // 讲当前位置保存方便下次移动进行比较
+                o.x = x2;
+                o.y = y2;
+
+                el.style.transform =
+                    'translate(' + c.__imgX + 'px' + ',' + c.__imgY + 'px' + ')';
+            };
         };
-      },
+        el.onmouseup = () => {
+            el.onmousemove = null;
+        };
+    }
     },
   },
   data() {
