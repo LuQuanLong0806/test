@@ -9,9 +9,9 @@ import Alert from './components/modules/alert'
 import Pop from './components/modules/pop'
 
 
-import "i-ui123/dist/css/index.css";
-import iUi from "i-ui123";
-Vue.use(iUi);
+import "explore-design/dist/css/index.css";
+import exploreDesign from "explore-design";
+Vue.use(exploreDesign);
 
 // 公共过滤器
 Object.keys(filters).forEach(d => {
