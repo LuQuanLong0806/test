@@ -12,27 +12,27 @@
 <script>
 // import LoginVuelidate from "@/components/LoginVuelidate";
 // import LoginVeeValidate from '@/components/LoginVeeValidate'
-import Head from "@/components/Head";
+import Head from '@/components/Head'
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
     Head,
     // LoginVuelidate,
     // LoginVeeValidate,
   },
   data() {
-    return {};
+    return {}
   },
   validations: {},
   created() {},
   methods: {},
-};
+}
 </script>
 
 <style  lang="scss">
-@import "./assets/css/global.css";
-@import "./assets/css/layui-layer/layer.css";
+@import './assets/css/global.css';
+@import './assets/css/layui-layer/layer.css';
 // layui 样式属性
 .layui-btn {
   background-color: var(--theme-color);
@@ -47,7 +47,7 @@ export default {
   color: #fff;
 }
 .iconfont {
-  font-family: "layui-icon-fly" !important;
+  font-family: 'layui-icon-fly' !important;
 }
 html body {
   margin: 0;
