@@ -1,11 +1,11 @@
 <template>
   <div
-    class="tips animation"
+    class="ex-pop-tips animation"
     v-show="isShow"
     ref="Pop"
     :class="{ shake: type == 'shake' }"
   >
-    <div class="content">{{ msg }}</div>
+    <div class="ex-pop-content">{{ msg }}</div>
   </div>
 </template>
 
@@ -78,7 +78,7 @@ export default {
   }
 }
 
-.tips {
+.ex-pop-tips {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -92,7 +92,7 @@ export default {
   animation-name: shake;
 }
 
-.content {
+.ex-pop-content {
   background: rgba($color: #000000, $alpha: 0.6);
   color: #fff;
   border-radius: 5px;

@@ -9,9 +9,9 @@ import Alert from './components/modules/alert'
 import Pop from './components/modules/pop'
 
 
-// import "explore-design/dist/css/index.css";
-// import exploreDesign from "explore-design";
-// Vue.use(exploreDesign);
+import "explore-design/dist/css/index.css";
+import exploreDesign from "explore-design";
+Vue.use(exploreDesign);
 import { drag } from 'explore-design/dist/lib/directives.umd.js';
 Vue.directive('drag', drag) // 注册自定义指令
 // 公共过滤器

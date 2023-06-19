@@ -102,6 +102,8 @@
         </ValidationObserver>
       </div>
     </div>
+    <ex-card v-drag></ex-card>
+    <read-excel></read-excel>
   </div>
 </template>
 
